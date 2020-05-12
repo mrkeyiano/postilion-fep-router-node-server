@@ -1,6 +1,6 @@
 const net = require('net');
 const port = 43666;
-const host = '127.0.0.1';
+const host = '0.0.0.0';
 
 const server = net.createServer();
 server.listen(port, host, () => {
