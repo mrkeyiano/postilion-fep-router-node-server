@@ -2,7 +2,7 @@ const net = require('net');
 const port = 43666;
 const host = '0.0.0.0';
 const fepHost = '10.154.0.12';
-const fepPort = '49155';
+const fepPort = '43666';
 
 const server = net.createServer();
 const client = new net.Socket();
@@ -14,7 +14,7 @@ server.listen(port, host, () => {
 
 //connect to fep
 client.connect(fepPort, fepHost, function() {
-    console.log("Connected to patricia pay fep");
+    console.log("Connected to patricia pay fep running on ip" + fepHost + " and port " +fepPort);
 
 });
 
@@ -38,6 +38,9 @@ server.on('connection', function(sock) {
             console.log("Patricia Pay FEP response: " + data);
 
         });
+        client.on('close', function() {
+            console.log("Patricia Pay FEP connection closed");
+        });
 
 
         // Write the data back to all the connected, the client will receive it as data from the server
@@ -50,9 +53,7 @@ server.on('connection', function(sock) {
 
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
-        client.on('close', function() {
-            console.log("Patricia Pay FEP connection closed");
-        });
+        client.destroy();
 
         let index = sockets.findIndex(function(o) {
             return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
