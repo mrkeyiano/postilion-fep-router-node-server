@@ -28,10 +28,10 @@ server.on('connection', function(sock) {
                 console.log("Connected to patricia pay fep");
                 client.write(data);
                 console.log("Data sent: " + data);
-            })
+            });
             client.on('data', function(data) {
                 console.log("Patricia Pay FEP response: " + data);
-            })
+            });
             client.on('close', function() {
                 console.log("Patricia Pay FEP connection closed");
             });
