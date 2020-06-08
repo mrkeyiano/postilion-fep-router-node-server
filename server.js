@@ -3,18 +3,26 @@ const port = 43666;
 const host = '0.0.0.0';
 const fepHost = '10.154.0.12';
 const fepPort = '43666';
+const pbHost = '';
+const pbPort = '';
 
 const server = net.createServer();
 const client = new net.Socket();
 
 
 server.listen(port, host, () => {
-    console.log('TCP Server is running on port ' + port + '.');
+    console.log('Mastercard router server is running on port ' + port + '.');
 });
 
 //connect to fep
-client.connect(fepPort, fepHost, function() {
+fepClient.connect(fepPort, fepHost, function() {
     console.log("Connected to patricia pay fep running on ip" + fepHost + " and port " +fepPort);
+
+});
+
+//connect to unitybank postbridge
+postbridge.connect(pbPort, pbHost, function() {
+    console.log("Connected to Unitybank postbridge running on ip" + pbHost + " and port " +pbPort);
 
 });
 
@@ -29,17 +37,30 @@ server.on('connection', function(sock) {
     sock.on('data', function(data) {
 
 
-        console.log('DATA ' + sock.remoteAddress + ': ' + data);
+        console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
 
-        client.write(data);
-        console.log("Data sent: " + data);
+        console.log("Forwarding data to Patricia Pay FEP server");
 
-        client.on('data', function(data) {
-            console.log("Patricia Pay FEP response: " + data);
+        fepClient.write(data);
 
-        });
-        client.on('close', function() {
-            console.log("Patricia Pay FEP connection closed");
+        console.log("Data forwarded to Patricia Pay FEP server: " + data);
+
+        //wait for response and forward back to postbridge
+
+        fepClient.on('data', function(data) {
+            console.log("Patricia Pay FEP server response: " + data);
+            console.log("Forwarding data to Unitybank PostBridge");
+            //write data to unitbank postbridge
+            postbridge.write(data);
+            console.log("Data forwarded to Unitybank PostBridge: " + data);
+            postbridge.on('data', function(data) {
+                console.log("Unitybank Postbridge response: " + data);
+
+
+            });
+
+
+
         });
 
 
@@ -53,7 +74,13 @@ server.on('connection', function(sock) {
 
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
-        client.destroy();
+        fepClient.destroy();
+        console.log("Patricia Pay Fep connection closed");
+        postbridge.destroy();
+        console.log("Unitybank Postbridge connection closed");
+
+
+
 
         let index = sockets.findIndex(function(o) {
             return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
