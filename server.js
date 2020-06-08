@@ -20,11 +20,22 @@ fepClient.connect(fepPort, fepHost, function() {
     console.log("Connected to patricia pay fep running on ip" + fepHost + " and port " +fepPort);
 
 });
+//catch errors connecting to fep
+fepClient.on('error', function(ex) {
+
+    console.log("error connecting to fep client: " +ex);
+});
 
 //connect to unitybank postbridge
 postbridge.connect(pbPort, pbHost, function() {
     console.log("Connected to Unitybank postbridge running on ip" + pbHost + " and port " +pbPort);
 
+});
+
+//catch errors connecting to postbridge
+postbridge.on('error', function(ex) {
+
+    console.log("error connecting to postbridge client: " +ex);
 });
 
 let sockets = [];
