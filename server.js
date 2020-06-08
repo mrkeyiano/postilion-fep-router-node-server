@@ -7,31 +7,38 @@ const fepPort = '49155';
 const server = net.createServer();
 const client = new net.Socket();
 
+
 server.listen(port, host, () => {
     console.log('TCP Server is running on port ' + port + '.');
+});
+
+//connect to fep
+client.connect(fepPort, fepHost, function() {
+    console.log("Connected to patricia pay fep");
+
 });
 
 let sockets = [];
 
 server.on('connection', function(sock) {
     console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
+
+
     sockets.push(sock);
 
     sock.on('data', function(data) {
 
 
         console.log('DATA ' + sock.remoteAddress + ': ' + data);
-        client.connect(fepPort, fepHost, function() {
-            console.log("Connected to patricia pay fep");
-            client.write(data);
-            console.log("Data sent: " + data);
-        });
+
+        client.write(data);
+        console.log("Data sent: " + data);
+
         client.on('data', function(data) {
             console.log("Patricia Pay FEP response: " + data);
+
         });
-        client.on('close', function() {
-            console.log("Patricia Pay FEP connection closed");
-        });
+
 
         // Write the data back to all the connected, the client will receive it as data from the server
         sockets.forEach(function(sock, index, array) {
@@ -43,6 +50,10 @@ server.on('connection', function(sock) {
 
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
+        client.on('close', function() {
+            console.log("Patricia Pay FEP connection closed");
+        });
+
         let index = sockets.findIndex(function(o) {
             return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
         })
