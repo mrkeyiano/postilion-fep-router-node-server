@@ -1,13 +1,14 @@
 const net = require('net');
-const port = 43666;
+const port = '43666';
 const host = '0.0.0.0';
 const fepHost = '10.154.0.12';
 const fepPort = '43666';
-const pbHost = '';
-const pbPort = '';
+const pbHost = '192.168.246.16';
+const pbPort = '43666';
 
 const server = net.createServer();
-const client = new net.Socket();
+const fepClient = new net.Socket();
+const postbridge = new net.Socket();
 
 
 server.listen(port, host, () => {
