@@ -3,12 +3,11 @@ const port = '43666';
 const host = '0.0.0.0';
 const fepHost = '10.154.0.12';
 const fepPort = '43666';
-const pbHost = '192.168.246.16';
-const pbPort = '43666';
+
 
 const server = net.createServer();
 const fepClient = new net.Socket();
-const postbridge = new net.Socket();
+
 
 
 server.listen(port, host, () => {
@@ -26,17 +25,7 @@ fepClient.on('error', function(ex) {
     console.log("error connecting to fep client: " +ex);
 });
 
-//connect to unitybank postbridge
-postbridge.connect(pbPort, pbHost, function() {
-    console.log("Connected to Unitybank postbridge running on ip" + pbHost + " and port " +pbPort);
 
-});
-
-//catch errors connecting to postbridge
-postbridge.on('error', function(ex) {
-
-    console.log("error connecting to postbridge client: " +ex);
-});
 
 let sockets = [];
 
@@ -62,14 +51,10 @@ server.on('connection', function(sock) {
         fepClient.on('data', function(data) {
             console.log("Patricia Pay FEP server response: " + data);
             console.log("Forwarding data to Unitybank PostBridge");
-            //write data to unitbank postbridge
-            postbridge.write(data);
+            //write data to unitybank postbridge
+
+            broadcast(data);
             console.log("Data forwarded to Unitybank PostBridge: " + data);
-            postbridge.on('data', function(data) {
-                console.log("Unitybank Postbridge response: " + data);
-
-
-            });
 
 
 
@@ -77,19 +62,26 @@ server.on('connection', function(sock) {
 
 
         // Write the data back to all the connected, the client will receive it as data from the server
-        sockets.forEach(function(sock, index, array) {
-
-
-            sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
-        });
+        // sockets.forEach(function(sock, index, array) {
+        //
+        //
+        //     sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
+        // });
     });
+
+    // Send a message to all clients
+    function broadcast(message) {
+        sockets.forEach(function (sock) {
+
+            sock.write(message);
+        });
+
+    }
 
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
         fepClient.destroy();
         console.log("Patricia Pay Fep connection closed");
-        postbridge.destroy();
-        console.log("Unitybank Postbridge connection closed");
 
 
 
