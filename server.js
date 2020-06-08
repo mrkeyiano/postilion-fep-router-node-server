@@ -21,20 +21,21 @@ server.on('connection', function(sock) {
 
 
         console.log('DATA ' + sock.remoteAddress + ': ' + data);
+        client.connect(fepPort, fepHost, function() {
+            console.log("Connected to patricia pay fep");
+            client.write(data);
+            console.log("Data sent: " + data);
+        });
+        client.on('data', function(data) {
+            console.log("Patricia Pay FEP response: " + data);
+        });
+        client.on('close', function() {
+            console.log("Patricia Pay FEP connection closed");
+        });
 
         // Write the data back to all the connected, the client will receive it as data from the server
         sockets.forEach(function(sock, index, array) {
-            client.connect(fepPort, fepHost, function() {
-                console.log("Connected to patricia pay fep");
-                client.write(data);
-                console.log("Data sent: " + data);
-            });
-            client.on('data', function(data) {
-                console.log("Patricia Pay FEP response: " + data);
-            });
-            client.on('close', function() {
-                console.log("Patricia Pay FEP connection closed");
-            });
+
 
             sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
         });
