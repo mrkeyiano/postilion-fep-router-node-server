@@ -16,7 +16,7 @@ server.listen(port, host, () => {
 
 //connect to fep
 fepClient.connect(fepPort, fepHost, function() {
-    console.log("Connected to patricia pay fep running on ip" + fepHost + " and port " +fepPort);
+    console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
 });
 //catch errors connecting to fep
