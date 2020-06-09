@@ -53,7 +53,10 @@ server.on('connection', function(sock) {
             console.log("Forwarding data to Unitybank PostBridge");
             //write data to unitybank postbridge
 
-            broadcast(data);
+            sockets.forEach(function (sock) {
+
+                sock.write(data);
+            });
             console.log("Data forwarded to Unitybank PostBridge: " + data);
 
 
@@ -71,10 +74,10 @@ server.on('connection', function(sock) {
 
     // Send a message to all clients
     function broadcast(message) {
-        sockets.forEach(function (sock) {
-
-            sock.write(message);
-        });
+        // sockets.forEach(function (sock) {
+        //
+        //     sock.write(message);
+        // });
 
     }
 
