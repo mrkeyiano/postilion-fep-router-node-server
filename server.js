@@ -1,3 +1,7 @@
+
+// turn off limits by default (BE CAREFUL)
+require('events').EventEmitter.prototype._maxListeners = 0;
+
 const net = require('net');
 const port = '43666';
 const host = '0.0.0.0';
