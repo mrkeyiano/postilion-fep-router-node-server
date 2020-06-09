@@ -83,9 +83,9 @@ server.on('connection', function(sock) {
 
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
-        fepClient.destroy();
-        console.log("Patricia Pay Fep connection closed");
-
+        // fepClient.destroy();
+        // console.log("Patricia Pay Fep connection closed");
+        //
 
 
 
