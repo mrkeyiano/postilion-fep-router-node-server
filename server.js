@@ -107,7 +107,7 @@ function connectFep() {
 
 function launchIntervalConnect() {
    // fepClient.removeAllListeners();
-    // fepClient.destroy();
+     fepClient.destroy();
 
     fepClient.addAll
     setInterval(connectFep, 5000)
