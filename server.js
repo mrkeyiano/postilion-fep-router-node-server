@@ -96,8 +96,9 @@ server.on('connection', function(sock) {
 
 function connectFep() {
 
-    fepClient.removeAllListeners();
-    fepClient.destroy();
+
+    //fepClient.removeAllListeners();
+    fepClient.end();
 
     fepClient.connect({
         port: fepPort,
