@@ -98,7 +98,7 @@ function connectFep() {
 
 
     //fepClient.removeAllListeners();
-    fepClient.end();
+    //fepClient.end();
 
     fepClient.connect({
         port: fepPort,
