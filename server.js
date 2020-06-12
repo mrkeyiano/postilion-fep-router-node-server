@@ -115,7 +115,7 @@ function launchIntervalConnect() {
     if(timeout == 60000) {
         timeout = 0;
     } else {
-        timeout+=3000;
+        timeout+=1000;
     }
 
 
