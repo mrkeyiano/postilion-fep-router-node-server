@@ -113,6 +113,7 @@ function connectFep() {
 function launchIntervalConnect() {
 
    timeout+=3000;
+   console.log("current timeout value: " +timeout);
 
     setInterval(connectFep, timeout)
 }
