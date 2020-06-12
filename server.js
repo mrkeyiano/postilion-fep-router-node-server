@@ -8,6 +8,7 @@ const host = '0.0.0.0';
 const fepHost = '10.154.0.12';
 const fepPort = '43666';
 var intervalConnect = false;
+var timeout = 0;
 
 
 const server = net.createServer();
