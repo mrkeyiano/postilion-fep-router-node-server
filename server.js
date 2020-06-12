@@ -109,6 +109,7 @@ function launchIntervalConnect() {
    // fepClient.removeAllListeners();
     // fepClient.destroy();
 
+    fepClient.addAll
     setInterval(connectFep, 5000)
 }
 
@@ -126,6 +127,8 @@ fepClient.on('error', function(ex) {
     console.log("error connecting to fep client: " +ex);
     console.log("Retrying connection to Patricia pay fep server");
    // connectFep();
+   // fepClient.removeAllListeners();
+    fepClient.destroy();
     launchIntervalConnect()
 
 });
