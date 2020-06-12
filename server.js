@@ -137,7 +137,7 @@ fepClient.on('close', function() {
     console.log("Patricia pay fep server connection closed");
     console.log("Retrying connection to Patricia pay fep server");
    // connectFep();
-    launchIntervalConnect()
+   // launchIntervalConnect()
 
 });
 
@@ -147,7 +147,7 @@ fepClient.on('end', function() {
     console.log("Patricia pay fep server connection ended");
     console.log("Retrying connection to Patricia pay fep server");
   //  connectFep();
-    launchIntervalConnect()
+  //  launchIntervalConnect()
 
 });
 
