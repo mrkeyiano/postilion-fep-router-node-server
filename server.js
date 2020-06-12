@@ -7,6 +7,7 @@ const port = '43666';
 const host = '0.0.0.0';
 const fepHost = '10.154.0.12';
 const fepPort = '43666';
+var intervalConnect = false;
 
 
 const server = net.createServer();
@@ -19,16 +20,7 @@ server.listen(port, host, () => {
 });
 
 //connect to fep
-fepClient.connect(fepPort, fepHost, function() {
-    console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
-
-});
-//catch errors connecting to fep
-fepClient.on('error', function(ex) {
-
-    console.log("error connecting to fep client: " +ex);
-});
-
+connectFep();
 
 
 let sockets = [];
@@ -100,3 +92,45 @@ server.on('connection', function(sock) {
         console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
     });
 });
+
+
+function connectFep() {
+
+    fepClient.connect({
+        port: fepPort,
+        host: fepHost,
+    })
+}
+
+
+//  fep code
+
+function launchIntervalConnect() {
+    if(false != intervalConnect) return
+    intervalConnect = setInterval(connectFep, 2000)
+}
+
+function clearIntervalConnect() {
+    if(false == intervalConnect) return
+    clearInterval(intervalConnect)
+    intervalConnect = false
+}
+
+fepClient.on('connect', function() {
+    clearIntervalConnect()
+    console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
+
+});
+
+//catch errors connecting to fep
+fepClient.on('error', function(ex) {
+
+    console.log("error connecting to fep client: " +ex);
+    console.log("Retrying connection to Patricia pay fep server");
+    launchIntervalConnect()
+
+});
+
+fepClient.on('close', launchIntervalConnect)
+fepClient.on('end', launchIntervalConnect)
+
