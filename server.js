@@ -138,10 +138,9 @@ fepClient.on('error', function(ex) {
 
     console.log("error connecting to fep client: " +ex);
     console.log("Retrying connection to Patricia pay fep server");
-   // connectFep();
-   // fepClient.removeAllListeners();
 
-    launchIntervalConnect()
+    fepClient.destroy();
+    //launchIntervalConnect()
 
 });
 
