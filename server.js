@@ -111,10 +111,9 @@ function connectFep() {
 
 function launchIntervalConnect() {
 
-    // fepClient.end();
+   timeout+=3000;
 
- //   fepClient.addAll
-    setInterval(connectFep, 3000)
+    setInterval(connectFep, timeout)
 }
 
 
