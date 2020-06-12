@@ -112,12 +112,11 @@ function launchIntervalConnect() {
 
 function clearIntervalConnect() {
     if(false == intervalConnect) return
-    clearInterval(intervalConnect)
     intervalConnect = false
 }
 
 fepClient.on('connect', function() {
-    clearIntervalConnect()
+    clearIntervalConnect();
     console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
 });
