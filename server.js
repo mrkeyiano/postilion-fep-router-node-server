@@ -107,6 +107,10 @@ function connectFep() {
 
 function launchIntervalConnect() {
     if(false != intervalConnect) return
+
+    fepClient.removeAllListeners();
+    fepClient.destroy();
+
     intervalConnect = setInterval(connectFep, 2000)
 }
 
