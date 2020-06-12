@@ -134,15 +134,15 @@ fepClient.on('error', function(ex) {
 });
 
 
-fepClient.on('close', function() {
-    intervalConnect = true;
-
-    console.log("Patricia pay fep server connection closed");
-    console.log("Retrying connection to Patricia pay fep server");
-   // connectFep();
-   // launchIntervalConnect()
-
-});
+// fepClient.on('close', function() {
+//     intervalConnect = true;
+//
+//     console.log("Patricia pay fep server connection closed");
+//     console.log("Retrying connection to Patricia pay fep server");
+//    // connectFep();
+//    // launchIntervalConnect()
+//
+// });
 
 fepClient.on('end', function() {
     intervalConnect = true;
