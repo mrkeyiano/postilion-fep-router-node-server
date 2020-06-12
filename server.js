@@ -111,22 +111,19 @@ function launchIntervalConnect() {
     fepClient.removeAllListeners();
     fepClient.destroy();
 
-    intervalConnect = setInterval(connectFep, 2000)
+    setInterval(connectFep, 2000)
 }
 
-function clearIntervalConnect() {
-    if(false == intervalConnect) return
-    intervalConnect = false
-}
 
 fepClient.on('connect', function() {
-    clearIntervalConnect();
+    intervalConnect = false;
     console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
 });
 
 //catch errors connecting to fep
 fepClient.on('error', function(ex) {
+    intervalConnect = true;
 
     console.log("error connecting to fep client: " +ex);
     console.log("Retrying connection to Patricia pay fep server");
@@ -136,6 +133,7 @@ fepClient.on('error', function(ex) {
 
 
 fepClient.on('close', function() {
+    intervalConnect = true;
 
     console.log("Patricia pay fep server connection closed");
     console.log("Retrying connection to Patricia pay fep server");
@@ -144,6 +142,7 @@ fepClient.on('close', function() {
 });
 
 fepClient.on('end', function() {
+    intervalConnect = true;
 
     console.log("Patricia pay fep server connection ended");
     console.log("Retrying connection to Patricia pay fep server");
