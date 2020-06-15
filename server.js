@@ -22,7 +22,7 @@ server.listen(port, host, () => {
 
 
 //connect to fep
-connectFep();
+//connectFep();
 
 
 
@@ -87,7 +87,10 @@ function connectFep() {
 
 function broadcast(data) {
 
+    connectFep();
     fepClient.write(data);
+    fepClient.removeAllListeners();
+    fepClient.destroy();
 
 }
 
