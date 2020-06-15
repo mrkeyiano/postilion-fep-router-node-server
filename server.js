@@ -90,22 +90,26 @@ function broadcast(data) {
 
 
 
-        console.log("connecting to fep server");
-        connectFep();
 
-        console.log("after connecting to fep server");
-        fepClient.write(data);
+        writeToFep(data);
 
-        console.log("after writing to fep server");
-
-   //     fepClient.removeAllListeners();
-      //  fepClient.destroy();
 
         return ("data sent to fep successfully");
 
 
 }
 
+
+
+function writeToFep(data) {
+    fepClient.connect( fePort, feHost, () => {
+
+        client.write(data);
+    });
+
+    fepClient.removeAllListeners();
+    fepClient.destroy();
+}
 //  fep code
 
 function launchIntervalConnect() {
