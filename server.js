@@ -46,7 +46,7 @@ server.on('connection', function(sock) {
 
         console.log("Data forwarded to Patricia Pay FEP server: " + data);
 
-        sock.destroy();
+       // sock.destroy();
 
 
 
