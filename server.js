@@ -106,9 +106,6 @@ function writeToFep(data) {
 
         client.write(data);
     });
-
-    fepClient.removeAllListeners();
-    fepClient.destroy();
 }
 //  fep code
 
