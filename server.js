@@ -42,9 +42,9 @@ server.on('connection', function(sock) {
 
         console.log("Forwarding data to Patricia Pay FEP server");
 
-        broadcast(data);
+        const result = broadcast(data);
 
-        console.log("Data forwarded to Patricia Pay FEP server: " + data);
+        console.log(result);
 
        // sock.destroy();
 
@@ -87,10 +87,17 @@ function connectFep() {
 
 function broadcast(data) {
 
-    connectFep();
-    fepClient.write(data);
-    fepClient.removeAllListeners();
-    fepClient.destroy();
+
+    return new Promise(resolve => {
+
+        connectFep();
+        fepClient.write(data);
+        fepClient.removeAllListeners();
+        fepClient.destroy();
+        resolve('data sent to fep client successfully!!!');
+
+    });
+
 
 }
 
