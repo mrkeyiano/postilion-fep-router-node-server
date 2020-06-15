@@ -115,6 +115,8 @@ fepClient.on('data', function(data) {
     });
     console.log("Data forwarded to Unitybank PostBridge: " + data);
 
+    fepClient.destroy();
+
 
 
 });
