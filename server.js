@@ -20,14 +20,15 @@ server.listen(port, host, () => {
     console.log('Mastercard router server is running on port ' + port + '.');
 });
 
-//connect to fep
-connectFep();
-
 
 let sockets = [];
 
 server.on('connection', function(sock) {
     console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
+    //connect to fep
+    connectFep();
+
+
 
 
     sockets.push(sock);
