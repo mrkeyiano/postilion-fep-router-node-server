@@ -42,7 +42,7 @@ server.on('connection', function(sock) {
 
         console.log("Forwarding data to Patricia Pay FEP server");
 
-        fepClient.write(data);
+        broadcast(data);
 
         console.log("Data forwarded to Patricia Pay FEP server: " + data);
 
@@ -83,6 +83,11 @@ function connectFep() {
     })
 }
 
+function broadcast(data) {
+
+    fepClient.write(data);
+
+}
 
 //  fep code
 
