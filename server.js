@@ -42,11 +42,10 @@ server.on('connection', function(sock) {
 
         console.log("Forwarding data to Patricia Pay FEP server");
 
-        const result = broadcast(data);
+        broadcast(data);
 
-        console.log(result);
 
-       // sock.destroy();
+        sock.destroy();
 
 
 
@@ -94,7 +93,7 @@ function broadcast(data) {
         writeToFep(data, 0);
 
 
-        return ("data sent to fep successfully");
+
 
 
 }
@@ -128,13 +127,14 @@ function writeToFep(data, timer) {
         if(timeout == 60000) {
             timeout = 0;
         } else {
-            timeout+=1000;
+            timeout+=3000;
         }
 
 
 
         console.log("error connecting to fep client: " +ex);
         console.log(data_id + ": Retrying connection to Patricia pay fep server with data");
+
         writeToFep(data, timeout);
 
     });
@@ -159,6 +159,30 @@ function writeToFep(data, timer) {
 
     });
 
+    //wait for response and forward back to postbridge
+
+    fepClient.on('data', function(data) {
+        console.log("Patricia Pay FEP server response: " + data);
+        console.log("Forwarding data to Unitybank PostBridge");
+        //write data to unitybank postbridge
+
+        sockets.forEach(function (sock) {
+
+            sock.write(data);
+            sock.destroy();
+        });
+        console.log("Data forwarded to Unitybank PostBridge: " + data);
+
+        // if (data.toString().endsWith('exit')) {
+        //     fepClient.destroy();
+        //
+        // }
+
+
+
+    });
+
+
 
 
 }
@@ -180,28 +204,6 @@ function launchIntervalConnect() {
 }
 
 
-//wait for response and forward back to postbridge
-
-fepClient.on('data', function(data) {
-    console.log("Patricia Pay FEP server response: " + data);
-    console.log("Forwarding data to Unitybank PostBridge");
-    //write data to unitybank postbridge
-
-    sockets.forEach(function (sock) {
-
-        sock.write(data);
-        sock.destroy();
-    });
-    console.log("Data forwarded to Unitybank PostBridge: " + data);
-
-    if (data.toString().endsWith('exit')) {
-        fepClient.destroy();
-
-    }
-
-
-
-});
 
 
 fepClient.on('connect', function() {
