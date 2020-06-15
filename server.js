@@ -141,8 +141,8 @@ function writeToFep(data) {
         intervalConnect = true;
 
         console.log("Patricia pay fep server connection ended");
-        console.log(data_id +  ": Retrying connection to Patricia pay fep server with data");
-        writeToFep(data);
+      //  console.log(data_id +  ": Retrying connection to Patricia pay fep server with data");
+     //   writeToFep(data);
 
     });
 
