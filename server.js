@@ -132,7 +132,7 @@ function writeToFep(data) {
 
         console.log("Patricia pay fep server connection closed");
         console.log(data_id +  ": Retrying connection to Patricia pay fep server with data");
-        writeToFep(data);
+      //  writeToFep(data);
         // launchIntervalConnect()
 
     });
