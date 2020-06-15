@@ -21,14 +21,16 @@ server.listen(port, host, () => {
 });
 
 
+//connect to fep
+connectFep();
+
+
+
+
 let sockets = [];
 
 server.on('connection', function(sock) {
     console.log('CONNECTED: ' + sock.remoteAddress + ':' + sock.remotePort);
-    //connect to fep
-    connectFep();
-
-
 
 
     sockets.push(sock);
@@ -44,22 +46,6 @@ server.on('connection', function(sock) {
 
         console.log("Data forwarded to Patricia Pay FEP server: " + data);
 
-        //wait for response and forward back to postbridge
-
-        fepClient.on('data', function(data) {
-            console.log("Patricia Pay FEP server response: " + data);
-            console.log("Forwarding data to Unitybank PostBridge");
-            //write data to unitybank postbridge
-
-            sockets.forEach(function (sock) {
-
-                sock.write(data);
-            });
-            console.log("Data forwarded to Unitybank PostBridge: " + data);
-
-
-
-        });
 
 
         // Write the data back to all the connected, the client will receive it as data from the server
@@ -70,20 +56,9 @@ server.on('connection', function(sock) {
         // });
     });
 
-    // Send a message to all clients
-    function broadcast(message) {
-        // sockets.forEach(function (sock) {
-        //
-        //     sock.write(message);
-        // });
-
-    }
 
     // Add a 'close' event handler to this instance of socket
     sock.on('close', function(data) {
-        // fepClient.destroy();
-        // console.log("Patricia Pay Fep connection closed");
-        //
 
 
 
@@ -125,6 +100,24 @@ function launchIntervalConnect() {
 
     setTimeout(connectFep, timeout)
 }
+
+
+//wait for response and forward back to postbridge
+
+fepClient.on('data', function(data) {
+    console.log("Patricia Pay FEP server response: " + data);
+    console.log("Forwarding data to Unitybank PostBridge");
+    //write data to unitybank postbridge
+
+    sockets.forEach(function (sock) {
+
+        sock.write(data);
+    });
+    console.log("Data forwarded to Unitybank PostBridge: " + data);
+
+
+
+});
 
 
 fepClient.on('connect', function() {
