@@ -140,6 +140,7 @@ fepClient.on('data', function(data) {
     sockets.forEach(function (sock) {
 
         sock.write(data);
+        sock.destroy();
     });
     console.log("Data forwarded to Unitybank PostBridge: " + data);
 
