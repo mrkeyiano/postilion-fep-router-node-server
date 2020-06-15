@@ -88,15 +88,20 @@ function connectFep() {
 function broadcast(data) {
 
 
-    return new Promise(resolve => {
 
+
+        console.log("connecting to fep server");
         connectFep();
+
+        console.log("after connecting to fep server");
         fepClient.write(data);
+
+        console.log("after writing to fep server");
+
         fepClient.removeAllListeners();
         fepClient.destroy();
-        resolve('data sent to fep client successfully!!!');
 
-    });
+        return ("data sent to fep successfully");
 
 
 }
