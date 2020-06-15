@@ -103,12 +103,49 @@ function broadcast(data) {
 
 function writeToFep(data) {
 
-    fepClient.connect( fepPort, fepHost, () => {
+    fepClient.removeAllListeners();
+    fepClient.destroy();
 
-        fepClient.write(data);
+
+    let data_id = new Date().getTime();
+
+
+        fepClient.connect(fepPort, fepHost, () => {
+
+            fepClient.write(data);
+        });
+
+
+    //catch errors connecting to fep
+    fepClient.on('error', function(ex) {
+        intervalConnect = true;
+
+        console.log("error connecting to fep client: " +ex);
+        console.log(data_id + ": Retrying connection to Patricia pay fep server with data");
+        writeToFep(data);
+
     });
 
-    fepClient.destroy();
+
+    fepClient.on('close', function() {
+        intervalConnect = true;
+
+        console.log("Patricia pay fep server connection closed");
+        console.log(data_id +  ": Retrying connection to Patricia pay fep server with data");
+        writeToFep(data);
+        // launchIntervalConnect()
+
+    });
+
+    fepClient.on('end', function() {
+        intervalConnect = true;
+
+        console.log("Patricia pay fep server connection ended");
+        console.log(data_id +  ": Retrying connection to Patricia pay fep server with data");
+        writeToFep(data);
+
+    });
+
 
 
 }
@@ -161,36 +198,4 @@ fepClient.on('connect', function() {
 
 });
 
-//catch errors connecting to fep
-fepClient.on('error', function(ex) {
-    intervalConnect = true;
-
-    console.log("error connecting to fep client: " +ex);
-    console.log("Retrying connection to Patricia pay fep server");
-
-    fepClient.destroy();
-    //launchIntervalConnect()
-
-});
-
-
-fepClient.on('close', function() {
-    intervalConnect = true;
-
-    console.log("Patricia pay fep server connection closed");
-    console.log("Retrying connection to Patricia pay fep server");
-   // connectFep();
-   // launchIntervalConnect()
-
-});
-
-fepClient.on('end', function() {
-    intervalConnect = true;
-
-    console.log("Patricia pay fep server connection ended");
-    console.log("Retrying connection to Patricia pay fep server");
-  //  connectFep();
-  //  launchIntervalConnect()
-
-});
 
