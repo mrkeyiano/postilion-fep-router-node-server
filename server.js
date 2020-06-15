@@ -103,8 +103,8 @@ function broadcast(data) {
 
 function writeToFep(data) {
 
-    fepClient.removeAllListeners();
-    fepClient.destroy();
+   // fepClient.removeAllListeners();
+    //fepClient.destroy();
 
 
     let data_id = new Date().getTime();
