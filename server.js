@@ -109,7 +109,7 @@ function writeToFep(data, timer) {
 
 
 
-    setTimeout(start(), timer);
+    setTimeout(start, timer);
 
 
     let data_id = new Date().getTime();
