@@ -98,8 +98,8 @@ function broadcast(data) {
 
         console.log("after writing to fep server");
 
-        fepClient.removeAllListeners();
-        fepClient.destroy();
+   //     fepClient.removeAllListeners();
+      //  fepClient.destroy();
 
         return ("data sent to fep successfully");
 
