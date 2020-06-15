@@ -102,13 +102,15 @@ function broadcast(data) {
 
 
 function writeToFep(data) {
+
     fepClient.connect( fepPort, fepHost, () => {
 
         fepClient.write(data);
     });
 
-    // fepClient.removeAllListeners();
-    // fepClient.destroy();
+    fepClient.destroy();
+
+
 }
 //  fep code
 
@@ -141,7 +143,10 @@ fepClient.on('data', function(data) {
     });
     console.log("Data forwarded to Unitybank PostBridge: " + data);
 
-    //fepClient.destroy();
+    if (data.toString().endsWith('exit')) {
+        fepClient.destroy();
+
+    }
 
 
 
@@ -174,7 +179,7 @@ fepClient.on('close', function() {
     console.log("Patricia pay fep server connection closed");
     console.log("Retrying connection to Patricia pay fep server");
    // connectFep();
-    launchIntervalConnect()
+   // launchIntervalConnect()
 
 });
 
@@ -184,7 +189,7 @@ fepClient.on('end', function() {
     console.log("Patricia pay fep server connection ended");
     console.log("Retrying connection to Patricia pay fep server");
   //  connectFep();
-    launchIntervalConnect()
+  //  launchIntervalConnect()
 
 });
 
