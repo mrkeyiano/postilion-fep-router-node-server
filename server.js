@@ -46,6 +46,8 @@ server.on('connection', function(sock) {
 
         console.log("Data forwarded to Patricia Pay FEP server: " + data);
 
+        sock.destroy();
+
 
 
         // Write the data back to all the connected, the client will receive it as data from the server
@@ -120,7 +122,7 @@ fepClient.on('data', function(data) {
     });
     console.log("Data forwarded to Unitybank PostBridge: " + data);
 
-    fepClient.destroy();
+    //fepClient.destroy();
 
 
 
