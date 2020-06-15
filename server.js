@@ -104,8 +104,11 @@ function broadcast(data) {
 function writeToFep(data) {
     fepClient.connect( fepPort, fepHost, () => {
 
-        client.write(data);
+        fepClient.write(data);
     });
+
+    fepClient.removeAllListeners();
+    fepClient.destroy();
 }
 //  fep code
 
