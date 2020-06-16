@@ -40,7 +40,7 @@ server.on('connection', function(sock) {
         console.log("forwarding data to Patricia Pay FEP server");
 
 
-        let data_id = new Date().getTime();
+        let data_id = "requestId_" + new Date().getTime();
 
         console.log("initiating connection to fep server");
         fepClient.connect({
