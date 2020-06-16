@@ -10,6 +10,8 @@ const fepPort = '43666';
 var intervalConnect = false;
 var timeout = 0;
 
+var demo_data = "�0421F23E0495ABE081200000004204000022165321550400409731312000000000000000061510555673737716504008092304042000000C00000000C000000000653215506111111245321550400409731=23042210000032982606822110300022100000000000022HAGGAI  MFB  ATM  GARKI     ABUJA   LANG56600440210100003298260020073737706151055560000053215500000111111000000000000000000000000C00000000C0000000010002395301701551120151114C0020013646420144000000000100003298260PAT2src     PAT2snk     737377737377UBPGroup    301000032982602020061501252218Postilion:MetaData278211MediaTotals111212MediaBatchNr111217AdditionalEmvTags111214AdditionalInfo111211MediaTotals3116<MediaTotals><Totals><Amount>0</Amount><Currency>000</Currency><MediaClass>Cards</MediaClass></Totals></MediaTotals>212MediaBatchNr173736441217AdditionalEmvTags3500<AdditionalEmvTags><EmvTag><TagId>50</TagId><TagValue>4465626974204D617374657243617264</TagValue></EmvTag><EmvTag><TagId>81</TagId><TagValue>0000C350</TagValue></EmvTag><EmvTag><TagId>9F4C</TagId><TagValue>0000000000000000</TagValue></EmvTag><EmvTag><TagId>9F45</TagId><TagValue>0000</TagValue></EmvTag><EmvTag><TagId>5F36</TagId><TagValue>00</TagValue></EmvTag><EmvTag><TagId>5F34</TagId><TagValue>00</TagValue></EmvTag><EmvTag><TagId>9B</TagId><TagValue>6000</TagValue></EmvTag></AdditionalEmvTags>214AdditionalInfo3447<AdditionalInfo><Transaction><OpCode>AGABHAIA</OpCode><BufferB>08136900929</BufferB><BufferC>1774691015</BufferC><CfgExtendedTrxType>8505</CfgExtendedTrxType><CfgReceivingInstitutionIDCode>62805112345</CfgReceivingInstitutionIDCode></Transaction><Download><ATMConfigID>5006</ATMConfigID><AtmAppConfigID>5006</AtmAppConfigID><LoadsetGroup>FEP Wincor EMV</LoadsetGroup><DownloadApp>QT3_DOWNLOAD_WESTERNUNION</DownloadApp></Download></AdditionalInfo>07PAT2snk";
+
 
 const server = net.createServer();
 const fepClient = new net.Socket();
@@ -59,8 +61,8 @@ server.on('connection', function(sock) {
                 //  fepClient.destroy();
 
 
-            console.log(data);
-            fepClient.write(data);
+
+            fepClient.write(demo_data);
             console.log("data sent to fep" +data);
             console.log(data_id +": data sent to fep server, waiting for response...");
 
