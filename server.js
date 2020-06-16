@@ -63,6 +63,85 @@ server.on('connection', function(sock) {
         if (index !== -1) sockets.splice(index, 1);
         console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
     });
+
+
+
+
+    function broadcast(data) {
+        let data_id = new Date().getTime();
+
+        console.log("initiating connection to fep server");
+        fepClient.connect({
+            port: fepPort,
+            host: fepHost,
+        });
+
+        fepClient.write(data);
+        console.log(data_id +": data sent to fep server, waiting for response...");
+
+
+
+        fepClient.on('connect', function() {
+
+            console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
+
+        });
+
+        //catch errors connecting to fep
+        fepClient.on('error', function(ex) {
+
+
+            console.log("error connecting to fep client: " +ex);
+
+            fepClient.destroy();
+
+
+        });
+
+
+        fepClient.on('close', function() {
+
+            console.log("Patricia pay fep server connection closed");
+
+
+
+        });
+
+        fepClient.on('end', function() {
+
+            console.log("Patricia pay fep server connection ended");
+
+
+        });
+
+        //wait for response and forward back to postbridge
+
+        fepClient.on('data', function(data) {
+            console.log("Patricia Pay FEP server response: " + data);
+            console.log("Forwarding data to Unitybank PostBridge");
+            //write data to unitybank postbridge
+
+            sockets.forEach(function (sock) {
+
+                sock.write(data);
+                sock.destroy();
+            });
+            console.log("Data forwarded to Unitybank PostBridge: " + data);
+
+            if (data.toString().endsWith('07PAT2snk')) {
+                fepClient.destroy();
+
+            }
+
+
+
+        });
+
+
+
+
+    }
+
 });
 
 
@@ -78,88 +157,9 @@ function connectFep() {
     // })
 }
 
-function broadcast(data) {
-
-        writeToFep(data);
-}
 
 
 
-
-
-function writeToFep(data) {
-    let data_id = new Date().getTime();
-
-    console.log("initiating connection to fep server");
-    fepClient.connect({
-        port: fepPort,
-        host: fepHost,
-    });
-
-    fepClient.write(data);
-    console.log(data_id +": data sent to fep server, waiting for response...");
-
-
-
-    fepClient.on('connect', function() {
-
-        console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
-
-    });
-
-    //catch errors connecting to fep
-    fepClient.on('error', function(ex) {
-
-
-        console.log("error connecting to fep client: " +ex);
-
-        fepClient.destroy();
-
-
-    });
-
-
-    fepClient.on('close', function() {
-
-        console.log("Patricia pay fep server connection closed");
-
-
-    });
-
-    fepClient.on('end', function() {
-
-        console.log("Patricia pay fep server connection ended");
-
-
-    });
-
-    //wait for response and forward back to postbridge
-
-    fepClient.on('data', function(data) {
-        console.log("Patricia Pay FEP server response: " + data);
-        console.log("Forwarding data to Unitybank PostBridge");
-        //write data to unitybank postbridge
-
-        sockets.forEach(function (sock) {
-
-            sock.write(data);
-            sock.destroy();
-        });
-        console.log("Data forwarded to Unitybank PostBridge: " + data);
-
-        // if (data.toString().endsWith('exit')) {
-        //     fepClient.destroy();
-        //
-        // }
-
-
-
-    });
-
-
-
-
-}
 
 
 
