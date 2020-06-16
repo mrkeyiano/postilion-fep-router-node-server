@@ -38,7 +38,7 @@ server.on('connection', function(sock) {
         let data_id = "requestId_" + new Date().getTime();
         let received = "";
         received += data.toString();
-        console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
+        console.log(data_id +':'+ sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
 
 
 
@@ -133,6 +133,8 @@ server.on('connection', function(sock) {
 
 
         });
+
+        sock.close();
 
 
 
