@@ -35,7 +35,7 @@ server.on('connection', function(sock) {
     sock.on('data', function(data) {
 
 
-        let data_id = "requestId_" + new Date().getTime();
+        let data_id = "requestId_" + makeid(5) + new Date().getTime();
         let received = "";
         received += data.toString();
         console.log(data_id +':'+ sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
@@ -175,6 +175,15 @@ server.on('connection', function(sock) {
 
 
 
+function makeid(length) {
+    var result           = '';
+    var characters       = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    var charactersLength = characters.length;
+    for ( var i = 0; i < length; i++ ) {
+        result += characters.charAt(Math.floor(Math.random() * charactersLength));
+    }
+    return result;
+}
 
 
 
