@@ -123,6 +123,8 @@ server.on('connection', function(sock) {
 
             console.log(data_id +": fep server connection closed");
 
+            fepClient.removeAllListeners();
+            fepClient.destroy();
 
 
         });
