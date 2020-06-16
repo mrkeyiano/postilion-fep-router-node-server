@@ -5,7 +5,7 @@ require('events').EventEmitter.prototype._maxListeners = 0;
 const net = require('net');
 const port = '43666';
 const host = '0.0.0.0';
-const fepHost = '10.154.0.12';
+const fepHost = '127.0.0.1';
 const fepPort = '43666';
 var intervalConnect = false;
 var timeout = 0;
@@ -35,7 +35,7 @@ server.on('connection', function(sock) {
 
         console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
 
-        console.log("Forwarding data to Patricia Pay FEP server");
+        console.log("forwarding data to Patricia Pay FEP server");
 
 
         let data_id = new Date().getTime();
@@ -67,6 +67,30 @@ server.on('connection', function(sock) {
             }
         });
 
+        //wait for response and forward back to postbridge
+
+        fepClient.on('data', function(data) {
+            console.log("Patricia Pay FEP server response: " + data);
+            console.log("Forwarding data to Unitybank PostBridge");
+            //write data to unitybank postbridge
+
+            sockets.forEach(function (sock) {
+
+                sock.write(data);
+                //  sock.destroy();
+            });
+            console.log("Data forwarded to Unitybank PostBridge: " + data);
+
+            if (data.toString().endsWith('07PAT2snk')) {
+                //  fepClient.destroy();
+
+            }
+
+            //  fepClient.destroy();
+
+
+        });
+
         //catch errors connecting to fep
         fepClient.on('error', function(ex) {
 
@@ -94,29 +118,7 @@ server.on('connection', function(sock) {
 
         });
 
-        //wait for response and forward back to postbridge
 
-        fepClient.on('data', function(data) {
-            console.log("Patricia Pay FEP server response: " + data);
-            console.log("Forwarding data to Unitybank PostBridge");
-            //write data to unitybank postbridge
-
-            sockets.forEach(function (sock) {
-
-                sock.write(data);
-                //  sock.destroy();
-            });
-            console.log("Data forwarded to Unitybank PostBridge: " + data);
-
-            if (data.toString().endsWith('07PAT2snk')) {
-                //  fepClient.destroy();
-
-            }
-
-            //  fepClient.destroy();
-
-
-        });
 
 
 
@@ -153,18 +155,6 @@ server.on('connection', function(sock) {
 
 });
 
-
-function connectFep() {
-
-
-    //fepClient.removeAllListeners();
-    //fepClient.end();
-
-    // fepClient.connect({
-    //     port: fepPort,
-    //     host: fepHost,
-    // })
-}
 
 
 
