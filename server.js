@@ -21,12 +21,6 @@ server.listen(port, host, () => {
 });
 
 
-//connect to fep
-//connectFep();
-
-
-
-
 let sockets = [];
 
 server.on('connection', function(sock) {
@@ -65,7 +59,7 @@ server.on('connection', function(sock) {
 
         let index = sockets.findIndex(function(o) {
             return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
-        })
+        });
         if (index !== -1) sockets.splice(index, 1);
         console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
     });
@@ -78,47 +72,37 @@ function connectFep() {
     //fepClient.removeAllListeners();
     //fepClient.end();
 
-    fepClient.connect({
-        port: fepPort,
-        host: fepHost,
-    })
+    // fepClient.connect({
+    //     port: fepPort,
+    //     host: fepHost,
+    // })
 }
 
 function broadcast(data) {
 
-
-
-
-
-        writeToFep(data, 0);
-
-
-
-
-
+        writeToFep(data);
 }
 
 
 
 
 
-function writeToFep(data, timer) {
+function writeToFep(data) {
     let data_id = new Date().getTime();
 
     console.log("initiating connection to fep server");
-
-    fepClient.connect(fepPort, fepHost, () => {
-
-        fepClient.write(data);
-        console.log(data_id +": data sent to fep server, waiting for response...");
-
-
+    fepClient.connect({
+        port: fepPort,
+        host: fepHost,
     });
+
+    fepClient.write(data);
+    console.log(data_id +": data sent to fep server, waiting for response...");
+
 
 
     fepClient.on('connect', function() {
-        intervalConnect = false;
-        // timeout = 0;
+
         console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
     });
