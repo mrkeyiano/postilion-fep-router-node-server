@@ -55,13 +55,16 @@ server.on('connection', function(sock) {
 
             console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
+            if (data.toString().endsWith('07PAT2snk')) {
+                //  fepClient.destroy();
+
 
             console.log(data);
             fepClient.write(data);
             console.log("data sent to fep" +data);
             console.log(data_id +": data sent to fep server, waiting for response...");
 
-
+            }
         });
 
         //catch errors connecting to fep
