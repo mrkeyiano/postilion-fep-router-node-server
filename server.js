@@ -134,7 +134,7 @@ server.on('connection', function(sock) {
 
         });
 
-        sock.close();
+        sock.destroy();
 
 
 
