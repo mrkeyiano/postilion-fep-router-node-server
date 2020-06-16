@@ -39,7 +39,7 @@ server.on('connection', function(sock) {
         let received = "";
         received += data.toString();
 
-        console.log(received);
+        console.log("received data dump" +received);
 
 
 
