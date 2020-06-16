@@ -49,6 +49,7 @@ server.on('connection', function(sock) {
 
 
         const messages = received.split("\n");
+        console.log("full messages:" +messages);
         if (messages.length > 1) {
             console.log(data_id +": initiating request to forward data from postbridge to fep server");
 
