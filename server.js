@@ -100,24 +100,28 @@ function broadcast(data) {
 
 
 
-function start() {
-    console.log("initiating connection to fep server");
-}
+
 
 function writeToFep(data, timer) {
-
-
-
-    setTimeout(start, timer);
-
-
     let data_id = new Date().getTime();
 
+    function startSending() {
+        console.log("initiating connection to fep server");
 
         fepClient.connect(fepPort, fepHost, () => {
 
             fepClient.write(data);
+            console.log(data_id +": data sent to fep server, waiting for response...")
         });
+
+    }
+
+    setTimeout(startSending, timer);
+
+
+
+
+
 
 
     //catch errors connecting to fep
@@ -137,6 +141,7 @@ function writeToFep(data, timer) {
 
         console.log("error connecting to fep client: " +ex);
         console.log(data_id + ": Retrying connection to Patricia pay fep server with data");
+        console.log("current timeout value: " +timeout);
 
         writeToFep(data, timeout);
 
