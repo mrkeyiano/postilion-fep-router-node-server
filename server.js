@@ -61,7 +61,7 @@ server.on('connection', function(sock) {
 
 
             fepClient.write(data.toString() +"\n");
-            console.log(data_id +": data sent to fep server, waiting for response...");
+            console.log(data_id +": data sent to fep server, waiting for response.");
 
 
 
@@ -71,8 +71,8 @@ server.on('connection', function(sock) {
         //wait for response and forward back to postbridge
 
         fepClient.on('data', function(data) {
-            console.log(data_id +": patricia Pay FEP server responded to request: ");
-            console.log(data_id +": forwarding data to Unitybank PostBridge");
+            console.log(data_id +": patricia pay fep server responded to request");
+            console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
 
             if (data.toString().endsWith('07PAT2snk')) {
@@ -81,7 +81,7 @@ server.on('connection', function(sock) {
                     sock.write(data+ "\n");
 
                 });
-                console.log(data_id + " request forwarded to Unitybank PostBridge: ");
+                console.log(data_id + " request forwarded to unitybank postbridge");
 
             }
 
