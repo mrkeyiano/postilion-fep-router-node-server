@@ -173,28 +173,28 @@ function writeToFep(data, timer) {
     });
 
     //wait for response and forward back to postbridge
-
-    fepClient.on('data', function(data) {
-        console.log("Patricia Pay FEP server response: " + data);
-        console.log("Forwarding data to Unitybank PostBridge");
-        //write data to unitybank postbridge
-
-        sockets.forEach(function (sock) {
-
-            sock.write(data);
-            sock.destroy();
-        });
-        console.log("Data forwarded to Unitybank PostBridge: " + data);
-
-        // if (data.toString().endsWith('exit')) {
-        //     fepClient.destroy();
-        //
-        // }
-
-
-
-    });
-
+    //
+    // fepClient.on('data', function(data) {
+    //     console.log("Patricia Pay FEP server response: " + data);
+    //     console.log("Forwarding data to Unitybank PostBridge");
+    //     //write data to unitybank postbridge
+    //
+    //     sockets.forEach(function (sock) {
+    //
+    //         sock.write(data);
+    //         sock.destroy();
+    //     });
+    //     console.log("Data forwarded to Unitybank PostBridge: " + data);
+    //
+    //     // if (data.toString().endsWith('exit')) {
+    //     //     fepClient.destroy();
+    //     //
+    //     // }
+    //
+    //
+    //
+    // });
+    //
 
 
 
