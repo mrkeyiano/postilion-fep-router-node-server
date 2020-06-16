@@ -46,16 +46,20 @@ server.on('connection', function(sock) {
             host: fepHost,
         });
 
-        console.log(data);
-        fepClient.write(data);
-        console.log(data_id +": data sent to fep server, waiting for response...");
-
 
 
 
         fepClient.on('connect', function() {
 
+
+
             console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
+
+
+            console.log(data);
+            fepClient.write(data);
+            console.log("data sent to fep" +data);
+            console.log(data_id +": data sent to fep server, waiting for response...");
 
 
         });
