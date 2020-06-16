@@ -100,7 +100,7 @@ server.on('connection', function(sock) {
         fepClient.on('error', function(ex) {
 
 
-            console.log("error connecting to fep client: " +ex);
+            console.log(data_id +": error connecting to fep client: " +ex);
 
             fepClient.destroy();
 
@@ -110,7 +110,7 @@ server.on('connection', function(sock) {
 
         fepClient.on('close', function() {
 
-            console.log("Patricia pay fep server connection closed");
+            console.log(data_id +": fep server connection closed");
 
 
 
@@ -118,7 +118,7 @@ server.on('connection', function(sock) {
 
         fepClient.on('end', function() {
 
-            console.log("Patricia pay fep server connection ended");
+            console.log(data_id +": fep server connection ended");
 
 
         });
