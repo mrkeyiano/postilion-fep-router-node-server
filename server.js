@@ -126,7 +126,7 @@ server.on('connection', function(sock) {
             sockets.forEach(function (sock) {
 
                 sock.write(data);
-                sock.destroy();
+              //  sock.destroy();
             });
             console.log("Data forwarded to Unitybank PostBridge: " + data);
 
