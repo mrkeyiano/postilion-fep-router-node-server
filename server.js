@@ -63,8 +63,8 @@ server.on('connection', function(sock) {
 
 
             fepClient.write("test data\n");
-            fepClient.removeAllListeners();
-            fepClient.destroy();
+            // fepClient.removeAllListeners();
+            // fepClient.destroy();
             console.log("data sent to fep" +data);
             console.log(data_id +": data sent to fep server, waiting for response...");
 
@@ -92,6 +92,7 @@ server.on('connection', function(sock) {
 
             }
 
+            fepClient.destroy();
 
 
 
