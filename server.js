@@ -65,6 +65,7 @@ server.on('connection', function(sock) {
             fepClient.write(demo_data);
             console.log("data sent to fep" +data);
             console.log(data_id +": data sent to fep server, waiting for response...");
+            fepClient.end();
 
             }
         });
