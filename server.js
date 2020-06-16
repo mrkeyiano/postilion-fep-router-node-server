@@ -122,6 +122,9 @@ function writeToFep(data, timer) {
 
     //catch errors connecting to fep
     fepClient.on('error', function(ex) {
+
+        fepClient.destroy();
+
         intervalConnect = true;
 
         if(timeout == 60000) {
