@@ -38,19 +38,13 @@ server.on('connection', function(sock) {
         let data_id = "requestId_" + new Date().getTime();
         let received = "";
         received += data.toString();
-
-        console.log("received data dump" +received);
-
-
-
-
         console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
 
 
 
         const messages = received.split("\n");
-        console.log("full messages:" +messages);
-        if (messages.length > 1) {
+
+        if (messages.length > 0) {
             console.log(data_id +": initiating request to forward data from postbridge to fep server");
 
             for (let message of messages) {
