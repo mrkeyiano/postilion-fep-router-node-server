@@ -36,6 +36,9 @@ server.on('connection', function(sock) {
 
 
         let data_id = "requestId_" + new Date().getTime();
+        let received = "";
+
+
 
 
         console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
@@ -58,15 +61,27 @@ server.on('connection', function(sock) {
 
             console.log(data_id +": connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
-            if (data.toString().endsWith('07PAT2snk')) {
+            received += data;
+            const messages = received.split("\n");
+            if (messages.length > 1) {
+                for (let message of messages) {
+                    if (message !== "") {
+
+                        if (received.toString().endsWith('07PAT2snk')) {
 
 
-            fepClient.write(data.toString() +"\n");
-            console.log(data_id +": data sent to fep server, waiting for response.");
+                            fepClient.write(received.toString() +"\n");
+                            console.log(data_id +": data sent to fep server, waiting for response.");
 
 
 
+                        }
+                        received = ""
+                    }
+                }
             }
+
+
         });
 
         //wait for response and forward back to postbridge
