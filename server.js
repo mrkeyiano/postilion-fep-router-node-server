@@ -19,7 +19,7 @@ const fepClient = new net.Socket();
 server.listen(port, host, () => {
     console.log('Mastercard router server is running on port ' + port + '.');
 });
-
+server.setEncoding("utf8");
 
 let sockets = [];
 
