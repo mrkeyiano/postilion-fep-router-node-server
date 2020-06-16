@@ -36,38 +36,7 @@ server.on('connection', function(sock) {
 
         console.log("Forwarding data to Patricia Pay FEP server");
 
-        broadcast(data);
 
-
-       // sock.destroy();
-
-
-
-        // Write the data back to all the connected, the client will receive it as data from the server
-        // sockets.forEach(function(sock, index, array) {
-        //
-        //
-        //     sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
-        // });
-    });
-
-
-    // Add a 'close' event handler to this instance of socket
-    sock.on('close', function(data) {
-
-
-
-        let index = sockets.findIndex(function(o) {
-            return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
-        });
-        if (index !== -1) sockets.splice(index, 1);
-        console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
-    });
-
-
-
-
-    function broadcast(data) {
         let data_id = new Date().getTime();
 
         console.log("initiating connection to fep server");
@@ -76,15 +45,16 @@ server.on('connection', function(sock) {
             host: fepHost,
         });
 
+        console.log(data);
+        fepClient.write(data);
+        console.log(data_id +": data sent to fep server, waiting for response...");
+
 
 
 
         fepClient.on('connect', function() {
 
             console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
-            console.log(data);
-            fepClient.write(data);
-            console.log(data_id +": data sent to fep server, waiting for response...");
 
 
         });
@@ -126,15 +96,16 @@ server.on('connection', function(sock) {
             sockets.forEach(function (sock) {
 
                 sock.write(data);
-              //  sock.destroy();
+                //  sock.destroy();
             });
             console.log("Data forwarded to Unitybank PostBridge: " + data);
 
             if (data.toString().endsWith('07PAT2snk')) {
-                fepClient.destroy();
+                //  fepClient.destroy();
 
             }
 
+            //  fepClient.destroy();
 
 
         });
@@ -142,7 +113,35 @@ server.on('connection', function(sock) {
 
 
 
-    }
+
+
+
+
+        // Write the data back to all the connected, the client will receive it as data from the server
+        // sockets.forEach(function(sock, index, array) {
+        //
+        //
+        //     sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
+        // });
+    });
+
+
+    // Add a 'close' event handler to this instance of socket
+    sock.on('close', function(data) {
+
+
+
+        let index = sockets.findIndex(function(o) {
+            return o.remoteAddress === sock.remoteAddress && o.remotePort === sock.remotePort;
+        });
+        if (index !== -1) sockets.splice(index, 1);
+        console.log('CLOSED: ' + sock.remoteAddress + ' ' + sock.remotePort);
+    });
+
+
+
+
+
 
 });
 
