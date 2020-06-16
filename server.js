@@ -65,6 +65,7 @@ server.on('connection', function(sock) {
             fepClient.write("test data");
             console.log("data sent to fep" +data);
             console.log(data_id +": data sent to fep server, waiting for response...");
+            fepClient.end();
 
 
             }
@@ -84,12 +85,12 @@ server.on('connection', function(sock) {
             });
             console.log("Data forwarded to Unitybank PostBridge: " + data);
 
-            if (data.toString().endsWith('07PAT2snk')) {
-                //  fepClient.destroy();
+            if (data.toString().endsWith('exit')) {
+                fepClient.destroy();
 
             }
 
-              fepClient.destroy();
+
 
 
         });
