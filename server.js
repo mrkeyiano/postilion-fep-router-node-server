@@ -86,7 +86,7 @@ server.on('connection', function(sock) {
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
 
-            if (data.toString().endsWith('07PAT2snk')) {
+         //   if (data.toString().endsWith('07PAT2snk')) {
                 sockets.forEach(function (sock) {
 
                     sock.write(data+ "\n");
@@ -94,7 +94,7 @@ server.on('connection', function(sock) {
                 });
                 console.log(data_id + ": request forwarded to unitybank postbridge");
 
-            }
+          //  }
 
             if (data.toString().endsWith('exit')) {
                 fepClient.destroy();
