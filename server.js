@@ -37,7 +37,7 @@ server.on('connection', function(sock) {
 
         let data_id = "requestId_" + new Date().getTime();
         let received = "";
-        received += data;
+        received += data.toString();
 
 
 
@@ -53,6 +53,7 @@ server.on('connection', function(sock) {
 
                   //  if (received.toString().endsWith('07PAT2snk')) {
 
+                        console.log(message);
                         console.log(data_id +": initiating request to forward data from postbridge to fep server");
 
 
