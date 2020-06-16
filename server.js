@@ -51,7 +51,7 @@ server.on('connection', function(sock) {
             for (let message of messages) {
                 if (message !== "") {
 
-                    if (received.toString().endsWith('07PAT2snk')) {
+                  //  if (received.toString().endsWith('07PAT2snk')) {
 
                         console.log(data_id +": initiating request to forward data from postbridge to fep server");
 
@@ -68,7 +68,7 @@ server.on('connection', function(sock) {
 
 
 
-                    }
+                  //  }
                     received = ""
                 }
             }
