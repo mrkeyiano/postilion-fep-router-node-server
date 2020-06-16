@@ -92,7 +92,7 @@ server.on('connection', function(sock) {
                     sock.write(data+ "\n");
 
                 });
-                console.log(data_id + " request forwarded to unitybank postbridge");
+                console.log(data_id + ": request forwarded to unitybank postbridge");
 
             }
 
