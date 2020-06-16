@@ -112,6 +112,11 @@ function writeToFep(data, timer) {
 
             fepClient.write(data);
             console.log(data_id +": data sent to fep server, waiting for response...")
+
+            fepClient.on('data', function(data) {
+                console.log("Patricia Pay FEP server response: " + data);
+
+            });
         });
 
     }
