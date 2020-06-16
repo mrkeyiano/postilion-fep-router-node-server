@@ -105,125 +105,79 @@ function broadcast(data) {
 function writeToFep(data, timer) {
     let data_id = new Date().getTime();
 
-    function startSending() {
-        console.log("initiating connection to fep server");
+    console.log("initiating connection to fep server");
 
-        fepClient.connect(fepPort, fepHost, () => {
+    fepClient.connect(fepPort, fepHost, () => {
 
-            fepClient.write(data);
-            console.log(data_id +": data sent to fep server, waiting for response...")
-
-            fepClient.on('data', function(data) {
-                console.log("Patricia Pay FEP server response: " + data);
-
-            });
-        });
-
-    }
-
-    setTimeout(startSending, timer);
+        fepClient.write(data);
+        console.log(data_id +": data sent to fep server, waiting for response...");
 
 
+    });
 
 
+    fepClient.on('connect', function() {
+        intervalConnect = false;
+        // timeout = 0;
+        console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
-
+    });
 
     //catch errors connecting to fep
     fepClient.on('error', function(ex) {
 
-        fepClient.destroy();
-
-        intervalConnect = true;
-
-        if(timeout == 60000) {
-            timeout = 0;
-        } else {
-            timeout+=3000;
-        }
-
-
 
         console.log("error connecting to fep client: " +ex);
-        console.log(data_id + ": Retrying connection to Patricia pay fep server with data");
-        console.log("current timeout value: " +timeout);
 
-        writeToFep(data, timeout);
+        fepClient.destroy();
+
 
     });
 
 
     fepClient.on('close', function() {
-        intervalConnect = true;
 
         console.log("Patricia pay fep server connection closed");
-        console.log(data_id +  ": Retrying connection to Patricia pay fep server with data");
-      //  writeToFep(data);
-        // launchIntervalConnect()
+
 
     });
 
     fepClient.on('end', function() {
-        intervalConnect = true;
 
         console.log("Patricia pay fep server connection ended");
-      //  console.log(data_id +  ": Retrying connection to Patricia pay fep server with data");
-     //   writeToFep(data);
+
 
     });
 
     //wait for response and forward back to postbridge
-    //
-    // fepClient.on('data', function(data) {
-    //     console.log("Patricia Pay FEP server response: " + data);
-    //     console.log("Forwarding data to Unitybank PostBridge");
-    //     //write data to unitybank postbridge
-    //
-    //     sockets.forEach(function (sock) {
-    //
-    //         sock.write(data);
-    //         sock.destroy();
-    //     });
-    //     console.log("Data forwarded to Unitybank PostBridge: " + data);
-    //
-    //     // if (data.toString().endsWith('exit')) {
-    //     //     fepClient.destroy();
-    //     //
-    //     // }
-    //
-    //
-    //
-    // });
-    //
+
+    fepClient.on('data', function(data) {
+        console.log("Patricia Pay FEP server response: " + data);
+        console.log("Forwarding data to Unitybank PostBridge");
+        //write data to unitybank postbridge
+
+        sockets.forEach(function (sock) {
+
+            sock.write(data);
+            sock.destroy();
+        });
+        console.log("Data forwarded to Unitybank PostBridge: " + data);
+
+        // if (data.toString().endsWith('exit')) {
+        //     fepClient.destroy();
+        //
+        // }
+
+
+
+    });
+
 
 
 
 }
-//  fep code
-
-function launchIntervalConnect() {
-
-    if(timeout == 60000) {
-        timeout = 0;
-    } else {
-        timeout+=1000;
-    }
 
 
 
-   console.log("current timeout value: " +timeout);
-
-    setTimeout(connectFep, timeout)
-}
-
-
-
-
-fepClient.on('connect', function() {
-    intervalConnect = false;
-   // timeout = 0;
-    console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
-
-});
 
 
