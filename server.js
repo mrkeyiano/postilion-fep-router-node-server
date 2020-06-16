@@ -37,51 +37,48 @@ server.on('connection', function(sock) {
 
         let data_id = "requestId_" + new Date().getTime();
         let received = "";
+        received += data;
 
 
 
 
         console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
 
-        console.log(data_id +": initiating request to forward data from postbridge to fep server");
 
 
-        console.log(data_id +": initiating connection to fep server");
-        fepClient.connect({
-            port: fepPort,
-            host: fepHost,
-        });
+        const messages = received.split("\n");
+        if (messages.length > 1) {
+            for (let message of messages) {
+                if (message !== "") {
+
+                    if (received.toString().endsWith('07PAT2snk')) {
+
+                        console.log(data_id +": initiating request to forward data from postbridge to fep server");
+
+
+                        console.log(data_id +": initiating connection to fep server");
+                        fepClient.connect({
+                            port: fepPort,
+                            host: fepHost,
+                        });
+
+
+                        fepClient.write(received.toString() +"\n");
+                        console.log(data_id +": data sent to fep server, waiting for response.");
+
+
+
+                    }
+                    received = ""
+                }
+            }
+        }
 
 
 
 
         fepClient.on('connect', function() {
-
-
-
             console.log(data_id +": connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
-
-            received += data;
-            const messages = received.split("\n");
-            if (messages.length > 1) {
-                for (let message of messages) {
-                    if (message !== "") {
-
-                        if (received.toString().endsWith('07PAT2snk')) {
-
-
-                            fepClient.write(received.toString() +"\n");
-                            console.log(data_id +": data sent to fep server, waiting for response.");
-
-
-
-                        }
-                        received = ""
-                    }
-                }
-            }
-
-
         });
 
         //wait for response and forward back to postbridge
