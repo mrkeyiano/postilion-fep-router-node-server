@@ -45,7 +45,7 @@ server.on('connection', function(sock) {
         broadcast(data);
 
 
-        sock.destroy();
+       // sock.destroy();
 
 
 
@@ -216,7 +216,7 @@ function launchIntervalConnect() {
 
 fepClient.on('connect', function() {
     intervalConnect = false;
-    timeout = 0;
+   // timeout = 0;
     console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
 });
