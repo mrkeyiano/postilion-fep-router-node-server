@@ -39,6 +39,8 @@ server.on('connection', function(sock) {
         let received = "";
         received += data.toString();
 
+        console.log(received);
+
 
 
 
