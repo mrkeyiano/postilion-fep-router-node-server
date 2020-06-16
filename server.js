@@ -35,14 +35,15 @@ server.on('connection', function(sock) {
     sock.on('data', function(data) {
 
 
-        console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
-
-        console.log("forwarding data to Patricia Pay FEP server");
-
-
         let data_id = "requestId_" + new Date().getTime();
 
-        console.log("initiating connection to fep server");
+
+        console.log(sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
+
+        console.log(data_id +": initiating request to forward data from postbridge to fep server");
+
+
+        console.log(data_id +": initiating connection to fep server");
         fepClient.connect({
             port: fepPort,
             host: fepHost,
@@ -55,7 +56,7 @@ server.on('connection', function(sock) {
 
 
 
-            console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
+            console.log(data_id +": connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
             if (data.toString().endsWith('07PAT2snk')) {
 
