@@ -5,7 +5,7 @@ require('events').EventEmitter.prototype._maxListeners = 0;
 const net = require('net');
 const port = '43666';
 const host = '0.0.0.0';
-const fepHost = '127.0.0.1';
+const fepHost = '10.154.0.12';
 const fepPort = '43666';
 var intervalConnect = false;
 var timeout = 0;
@@ -130,11 +130,11 @@ server.on('connection', function(sock) {
 
 
         // Write the data back to all the connected, the client will receive it as data from the server
-        sockets.forEach(function(sock, index, array) {
-
-
-            sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
-        });
+        // sockets.forEach(function(sock, index, array) {
+        //
+        //
+        //     sock.write(sock.remoteAddress + ':' + sock.remotePort + " said " + data + '\n');
+        // });
     });
 
 
