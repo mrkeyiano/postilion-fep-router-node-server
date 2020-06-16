@@ -58,13 +58,9 @@ server.on('connection', function(sock) {
             console.log("Connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
             if (data.toString().endsWith('07PAT2snk')) {
-                //  fepClient.destroy();
-
 
 
             fepClient.write(data.toString() +"\n");
-            // fepClient.removeAllListeners();
-            // fepClient.destroy();
             console.log("data sent to fep" +data);
             console.log(data_id +": data sent to fep server, waiting for response...");
 
@@ -76,16 +72,19 @@ server.on('connection', function(sock) {
         //wait for response and forward back to postbridge
 
         fepClient.on('data', function(data) {
-            console.log("Patricia Pay FEP server response: " + data);
-            console.log("Forwarding data to Unitybank PostBridge");
+            console.log(data_id +": patricia Pay FEP server responded to request: ");
+            console.log(data_id +": forwarding data to Unitybank PostBridge");
             //write data to unitybank postbridge
 
-            sockets.forEach(function (sock) {
+            if (data.toString().endsWith('07PAT2snk')) {
+                sockets.forEach(function (sock) {
 
-                sock.write(data);
-                //  sock.destroy();
-            });
-            console.log("Data forwarded to Unitybank PostBridge: " + data);
+                    sock.write(data+ "\n");
+
+                });
+                console.log(data_id + " request forwarded to Unitybank PostBridge: ");
+
+            }
 
             if (data.toString().endsWith('exit')) {
                 fepClient.destroy();
