@@ -50,13 +50,13 @@ server.on('connection', function(sock) {
 
         const messages = received.split("\n");
         if (messages.length > 1) {
+            console.log(data_id +": initiating request to forward data from postbridge to fep server");
+
             for (let message of messages) {
                 if (message !== "") {
 
                   //  if (received.toString().endsWith('07PAT2snk')) {
 
-                        console.log(message);
-                        console.log(data_id +": initiating request to forward data from postbridge to fep server");
 
 
                         console.log(data_id +": initiating connection to fep server");
