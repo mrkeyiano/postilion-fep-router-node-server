@@ -61,7 +61,7 @@ server.on('connection', function(sock) {
                         i = i+1;
 
                         this[i] = new net.Socket();
-                        console.log("RANDOM VaRIABLE NAME:" + this[i]);
+                        console.log("RANDOM VaRIABLE NAME:" + JSON.stringify(this[i]));
 
                     this[i].connect({
                             port: fepPort,
