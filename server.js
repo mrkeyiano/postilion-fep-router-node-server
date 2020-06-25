@@ -60,17 +60,17 @@ server.on('connection', function(sock) {
 
                         i = "connId_" + makeid(5) + new Date().getTime();
 
-                        this[i] = new net.Socket();
-                       // console.log("RANDOM VaRIABLE NAME:" + JSON.stringify(this[i]));
+                        global[i] = new net.Socket();
+                       // console.log("RANDOM VaRIABLE NAME:" + JSON.stringify(global[i]));
 
-                    this[i].connect({
+                    global[i].connect({
                             port: fepPort,
                             host: fepHost,
                         });
 
 
 
-                    this[i].write(received.toString() +"\n");
+                    global[i].write(received.toString() +"\n");
                         console.log(data_id +": data sent to fep server, waiting for response.");
 
 
@@ -84,14 +84,14 @@ server.on('connection', function(sock) {
 
 
 
-        this[i].on('connect', function() {
+        global[i].on('connect', function() {
             console.log(data_id +": connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
 
         });
 
         //wait for response and forward back to postbridge
 
-        this[i].on('data', function(data) {
+        global[i].on('data', function(data) {
             console.log(data_id +": patricia pay fep server responded to request");
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
@@ -108,10 +108,10 @@ server.on('connection', function(sock) {
             //check if data ends with or contains new line
             // if (data.toString().indexOf("\n")===-1) {
             //     //do nothing
-            //     this[i].destroy();
+            //     global[i].destroy();
             //
             // } else {
-            //     this[i].destroy();
+            //     global[i].destroy();
             //
             //
             // }
@@ -119,7 +119,7 @@ server.on('connection', function(sock) {
            // destroy();
 
             //close fepClient connection
-           // this[i].destroy();
+           // global[i].destroy();
 
 
 
@@ -127,28 +127,28 @@ server.on('connection', function(sock) {
         });
 
         //catch errors connecting to fep
-        this[i].on('error', function(ex) {
+        global[i].on('error', function(ex) {
 
 
             console.log(data_id +": error connecting to fep client: " +ex);
 
-            this[i].destroy();
+            global[i].destroy();
 
 
         });
 
 
-        this[i].on('close', function() {
+        global[i].on('close', function() {
 
             console.log(data_id +": fep server connection closed");
 
-            this[i].removeAllListeners();
-            this[i].destroy();
+            global[i].removeAllListeners();
+            global[i].destroy();
 
 
         });
 
-        this[i].on('end', function() {
+        global[i].on('end', function() {
 
             console.log(data_id +": fep server connection ended");
 
