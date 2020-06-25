@@ -105,6 +105,7 @@ server.on('connection', function(sock) {
             //check if data ends with or contains new line
             if (data.toString().indexOf("\n")===-1) {
                 //do nothing
+                this[i].destroy();
             } else {
                 this[i].destroy();
             }
