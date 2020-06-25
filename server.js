@@ -89,7 +89,7 @@ server.on('connection', function(sock) {
 
         //wait for response and forward back to postbridge
 
-        this[i].on('data', function(data) {
+        this[i].on('data', function(data, fepClient=this[i]) {
             console.log(data_id +": patricia pay fep server responded to request");
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
@@ -105,9 +105,9 @@ server.on('connection', function(sock) {
             //check if data ends with or contains new line
             if (data.toString().indexOf("\n")===-1) {
                 //do nothing
-               // [i].destroy();
+                fepClient.destroy();
             } else {
-               // [i].destroy();
+                fepClient.destroy();
 
             }
 
