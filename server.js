@@ -69,6 +69,7 @@ server.on('connection', function(sock) {
                         });
 
 
+
                     this[i].write(received.toString() +"\n");
                         console.log(data_id +": data sent to fep server, waiting for response.");
 
@@ -85,11 +86,12 @@ server.on('connection', function(sock) {
 
         this[i].on('connect', function() {
             console.log(data_id +": connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
+
         });
 
         //wait for response and forward back to postbridge
 
-        this[i].on('data', this[i], function(data) {
+        this[i].on('data', function(data) {
             console.log(data_id +": patricia pay fep server responded to request");
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
@@ -105,11 +107,15 @@ server.on('connection', function(sock) {
             //check if data ends with or contains new line
             if (data.toString().indexOf("\n")===-1) {
                 //do nothing
-                this[i].destroy();
+             //   this[i].destroy();
+                destroy();
             } else {
-                this[i].destroy();
+              //  this[i].destroy();
+                destroy();
 
             }
+
+           // destroy();
 
             //close fepClient connection
            // this[i].destroy();
