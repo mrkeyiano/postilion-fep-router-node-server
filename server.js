@@ -107,15 +107,17 @@ server.on('connection', function(sock) {
 
 
             //check if data ends with or contains new line
-            if (data.toString().indexOf("\n")===-1) {
-                //do nothing
-              //  global[i].destroy();
-
-            } else {
+           // if (data.toString().indexOf("</AdditionalInfo>")===-1) {
+            if(data.toString().endsWith("</AdditionalInfo>")) {
                 global[i].destroy();
 
+            }
+
+            if(data.toString().endsWith("07PAT2snk")) {
+                global[i].destroy();
 
             }
+
 
 
 
