@@ -57,19 +57,19 @@ server.on('connection', function(sock) {
                         //generate random variables name
 
 
-                        let rand_var = "fepClient";
+                        //let this = "fepClient";
                         i = i+1;
 
-                        rand_var[i] = new net.Socket();
-                        console.log("RANDOM VaRIABLE NAME:" + rand_var[i]);
+                        this[i] = new net.Socket();
+                        console.log("RANDOM VaRIABLE NAME:" + this[i]);
 
-                    rand_var[i].connect({
+                    this[i].connect({
                             port: fepPort,
                             host: fepHost,
                         });
 
 
-                    rand_var[i].write(received.toString() +"\n");
+                    this[i].write(received.toString() +"\n");
                         console.log(data_id +": data sent to fep server, waiting for response.");
 
 
@@ -83,13 +83,13 @@ server.on('connection', function(sock) {
 
 
 
-        rand_var[i].on('connect', function() {
+        this[i].on('connect', function() {
             console.log(data_id +": connected to patricia pay fep running on ip " + fepHost + " and port " +fepPort);
         });
 
         //wait for response and forward back to postbridge
 
-        rand_var[i].on('data', function(data) {
+        this[i].on('data', function(data) {
             console.log(data_id +": patricia pay fep server responded to request");
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
@@ -105,7 +105,7 @@ server.on('connection', function(sock) {
 
 
             if (data.toString().endsWith('exit')) {
-                rand_var[i].destroy();
+                this[i].destroy();
 
             }
 
@@ -115,28 +115,28 @@ server.on('connection', function(sock) {
         });
 
         //catch errors connecting to fep
-        rand_var[i].on('error', function(ex) {
+        this[i].on('error', function(ex) {
 
 
             console.log(data_id +": error connecting to fep client: " +ex);
 
-            rand_var[i].destroy();
+            this[i].destroy();
 
 
         });
 
 
-        rand_var[i].on('close', function() {
+        this[i].on('close', function() {
 
             console.log(data_id +": fep server connection closed");
 
-            rand_var[i].removeAllListeners();
-            rand_var[i].destroy();
+            this[i].removeAllListeners();
+            this[i].destroy();
 
 
         });
 
-        rand_var[i].on('end', function() {
+        this[i].on('end', function() {
 
             console.log(data_id +": fep server connection ended");
 
