@@ -59,7 +59,7 @@ server.on('connection', function(sock) {
                         let rand_var = "conn_" + makeid(5) + new Date().getTime();
                         let fep = 'fepClient';
                         rand_var[fep] = new net.Socket();
-                        console.log(rand_var[fep]);
+                        console.log("RANDOM VaRIABLE NAME:" + rand_var[fep]);
 
                     rand_var[fep].connect({
                             port: fepPort,
