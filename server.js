@@ -104,22 +104,18 @@ server.on('connection', function(sock) {
                 });
                 console.log(data_id + ": request forwarded to unitybank postbridge");
 
-            global[i].destroy();
+
+
             //check if data ends with or contains new line
-            // if (data.toString().indexOf("\n")===-1) {
-            //     //do nothing
-            //     global[i].destroy();
-            //
-            // } else {
-            //     global[i].destroy();
-            //
-            //
-            // }
+            if (data.toString().indexOf("\n")===-1) {
+                //do nothing
+              //  global[i].destroy();
 
-           // destroy();
+            } else {
+                global[i].destroy();
 
-            //close fepClient connection
-           // global[i].destroy();
+
+            }
 
 
 
