@@ -89,7 +89,7 @@ server.on('connection', function(sock) {
 
         //wait for response and forward back to postbridge
 
-        this.init = this[i].on('data', function(data) {
+        this[i].on('data', this[i], function(data) {
             console.log(data_id +": patricia pay fep server responded to request");
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
