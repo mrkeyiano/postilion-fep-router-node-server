@@ -104,7 +104,7 @@ server.on('connection', function(sock) {
                 });
                 console.log(data_id + ": request forwarded to unitybank postbridge");
 
-            this[i].destroy();
+            global[i].destroy();
             //check if data ends with or contains new line
             // if (data.toString().indexOf("\n")===-1) {
             //     //do nothing
