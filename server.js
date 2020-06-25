@@ -57,7 +57,7 @@ server.on('connection', function(sock) {
 
 
                         let rand_var = "conn_" + makeid(5) + new Date().getTime();
-                        let fep = 'fepClient';
+                        const fep = 'fepClient';
                         rand_var[fep] = new net.Socket();
                         console.log("RANDOM VaRIABLE NAME:" + rand_var[fep]);
 
