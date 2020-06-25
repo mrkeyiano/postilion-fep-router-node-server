@@ -109,6 +109,9 @@ server.on('connection', function(sock) {
 
             }
 
+            //close fepClient connection
+            this[i].destroy();
+
 
 
 
