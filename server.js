@@ -102,12 +102,6 @@ server.on('connection', function(sock) {
                 });
                 console.log(data_id + ": request forwarded to unitybank postbridge");
 
-            if(text.indexOf("\n")==-1){
-                alert("No newline characters")
-            }else{
-                alert("Contains newline characters")
-            }
-
             //check if data ends with or contains new line
             if (data.toString().indexOf("\n")===-1) {
                 //do nothing
