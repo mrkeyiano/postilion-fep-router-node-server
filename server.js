@@ -97,11 +97,7 @@ server.on('connection', function(sock) {
             //write data to unitybank postbridge
 
 
-            arr.forEach(function(i, idx, array){
-                if (idx === array.length - 1){
-                    console.log("Last callback call at index " + idx + " with value " + i );
-                }
-            });
+
 
                 sockets.forEach(function (sock, index, array) {
 
