@@ -107,12 +107,12 @@ server.on('connection', function(sock) {
                         console.log(data_id + ": request forwarded to unitybank postbridge");
 
                         if(data.toString().endsWith("</AdditionalInfo>")) {
-                            global[i].destroy();
+                           // global[i].destroy();
 
                         }
 
                         if(data.toString().endsWith("07PAT2snk")) {
-                            global[i].destroy();
+                           // global[i].destroy();
 
                         }
                     }
