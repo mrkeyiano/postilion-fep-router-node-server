@@ -97,26 +97,37 @@ server.on('connection', function(sock) {
             //write data to unitybank postbridge
 
 
-                sockets.forEach(function (sock) {
+            arr.forEach(function(i, idx, array){
+                if (idx === array.length - 1){
+                    console.log("Last callback call at index " + idx + " with value " + i );
+                }
+            });
+
+                sockets.forEach(function (sock, index, array) {
 
                     sock.write(data+ "\n");
 
+                    if (index === array.length - 1){
+                        console.log(data_id + ": request forwarded to unitybank postbridge");
+
+                        if(data.toString().endsWith("</AdditionalInfo>")) {
+                            global[i].destroy();
+
+                        }
+
+                        if(data.toString().endsWith("07PAT2snk")) {
+                            global[i].destroy();
+
+                        }
+                    }
+
                 });
-                console.log(data_id + ": request forwarded to unitybank postbridge");
 
 
 
             //check if data ends with or contains new line
            // if (data.toString().indexOf("</AdditionalInfo>")===-1) {
-            if(data.toString().endsWith("</AdditionalInfo>")) {
-                global[i].destroy();
 
-            }
-
-            if(data.toString().endsWith("07PAT2snk")) {
-                global[i].destroy();
-
-            }
 
 
 
