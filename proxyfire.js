@@ -4,11 +4,11 @@ const dotenv = require('dotenv');
 process.on("uncaughtException", function(error) {
     console.error(error);
 });
-
-if (process.argv.length != 5) {
-    console.log("usage: %s <localport> <remotehost> <remoteport>", process.argv[1]);
-    process.exit();
-}
+//
+// if (process.argv.length != 5) {
+//     console.log("usage: %s <localport> <remotehost> <remoteport>", process.argv[1]);
+//     process.exit();
+// }
 
 var localport = process.env.LOCAL_HOST;
 var remotehost = process.env.REMOTE_HOST;
