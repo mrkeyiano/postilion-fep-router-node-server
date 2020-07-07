@@ -29,15 +29,31 @@ var server = net.createServer(function (localsocket) {
     });
 
     localsocket.on('data', function (data) {
-        console.log("%s:%d - writing data to remote",
+        let received = "";
+        received += data.toString();
+        const messages = received.split("\n");
+
+        console.log("%s:%d - writing data to remote ${data}",
             localsocket.remoteAddress,
             localsocket.remotePort
         );
-        var flushed = remotesocket.write(data);
-        if (!flushed) {
-            console.log("  remote not flushed; pausing local");
-            localsocket.pause();
+
+        if (messages.length > 0) {
+
+            for (let message of messages) {
+                if (message !== "") {
+
+                    var flushed = remotesocket.write(received.toString() +"\n");
+                    if (!flushed) {
+                        console.log("  remote not flushed; pausing local");
+                        localsocket.pause();
+                    }
+                    received = ""
+                }
+            }
         }
+
+
     });
 
     remotesocket.on('data', function(data) {
