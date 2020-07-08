@@ -38,10 +38,11 @@ var server = net.createServer(function (localsocket) {
         received += data.toString();
         const messages = received.split("\r\n");
 
-        console.log(`%s:%d - ${messages}`,
+        console.log(`%s:%d says: `,
             localsocket.remoteAddress,
             localsocket.remotePort
         );
+        console.log(messages);
 
 
 
@@ -77,10 +78,13 @@ var server = net.createServer(function (localsocket) {
 
         const messages = received.split("\r\n");
 
-        console.log(`%s:%d - ${messages}`,
+
+        console.log(`%s:%d says: `,
             localsocket.remoteAddress,
             localsocket.remotePort
         );
+        console.log(messages);
+
 
         if (messages.length > 0) {
 
