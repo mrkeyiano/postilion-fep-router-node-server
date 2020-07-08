@@ -45,8 +45,9 @@ var server = net.createServer(function (localsocket) {
 
             for (let message of messages) {
                 if (message !== "") {
+                    console.log("selected message to send to upstream: " +message);
 
-                    console.log(`%s:%d - writing data to remote: ${message}`,
+                    console.log(`%s:%d - writing data to remote `,
                         localsocket.remoteAddress,
                         localsocket.remotePort
                     );
@@ -77,9 +78,11 @@ var server = net.createServer(function (localsocket) {
 
             for (let message of messages) {
                 if (message !== "") {
+                    console.log("selected message to send to downstream: " +message);
 
 
-                    console.log(`%s:%d - writing data to local ${message}`,
+
+                    console.log(`%s:%d - writing data to local `,
                         localsocket.remoteAddress,
                         localsocket.remotePort
                     );
