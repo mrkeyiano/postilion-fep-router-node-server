@@ -93,6 +93,7 @@ server.on('connection', function(sock) {
 
         global[i].on('data', function(data) {
             console.log(data_id +": patricia pay fep server responded to request");
+            console.log(data);
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
 
@@ -101,21 +102,25 @@ server.on('connection', function(sock) {
 
                 sockets.forEach(function (sock, index, array) {
 
-                    sock.write(data+ "\n");
+                    var broadcast = sock.write(data+ "\n");
+                    if(!broadcast){
 
-                    if (index === array.length - 1){
-                        console.log(data_id + ": request forwarded to unitybank postbridge");
+                        if (index === array.length - 1){
+                            console.log(data_id + ": request forwarded to unitybank postbridge");
 
-                        if(data.toString().endsWith("</AdditionalInfo>")) {
-                           // global[i].destroy();
+                            if(data.toString().endsWith("</AdditionalInfo>")) {
+                                // global[i].destroy();
 
-                        }
+                            }
 
-                        if(data.toString().endsWith("07PAT2snk")) {
-                           // global[i].destroy();
+                            if(data.toString().endsWith("07PAT2snk")) {
+                                // global[i].destroy();
 
+                            }
                         }
                     }
+
+
 
                 });
 

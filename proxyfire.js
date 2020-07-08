@@ -1,6 +1,7 @@
 var net = require("net");
 const dotenv = require('dotenv');
 var message = "";
+var buffer = "";
 
 
 dotenv.config();
@@ -70,8 +71,11 @@ var server = net.createServer(function (localsocket) {
 
     remotesocket.on('data', function(data) {
         let received = "";
+
         received += data.toString();
-        const messages = received.split("\r\n");
+
+
+        const messages = received.split("\n");
 
         console.log("OLALEKAN SAYS: ");
         console.log(messages);
