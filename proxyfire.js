@@ -75,7 +75,7 @@ var server = net.createServer(function (localsocket) {
         received += data.toString();
 
 
-        if(received.indexOf("07PAT2snk")===-1 || receivedindexOf("</AdditionalInfo>")===-1) {
+        if(received.indexOf("07PAT2snk")===-1 || received.indexOf("</AdditionalInfo>")===-1) {
 
               let message = received;
 
