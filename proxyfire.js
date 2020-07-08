@@ -33,7 +33,7 @@ var server = net.createServer(function (localsocket) {
         received += data.toString();
         const messages = received.split("\n");
 
-        console.log("%s:%d - writing data to remote ${data}",
+        console.log(`%s:%d - writing data to remote ${data}`,
             localsocket.remoteAddress,
             localsocket.remotePort
         );
