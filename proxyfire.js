@@ -73,7 +73,7 @@ var server = net.createServer(function (localsocket) {
         let received = "";
         received += data.toString();
 
-        const messages = received.split("\r\n");
+        const messages = received.split("\n");
 
 
         console.log("OLALEKAN SAYS: ");
