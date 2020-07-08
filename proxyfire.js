@@ -54,7 +54,7 @@ var server = net.createServer(function (localsocket) {
                         localsocket.remotePort
                     );
 
-                    var flushed = remotesocket.write(message +"\r\n");
+                    var flushed = remotesocket.write(message +"\n");
                     if (!flushed) {
                         console.log("  remote not flushed; pausing local");
                         localsocket.pause();
@@ -73,7 +73,7 @@ var server = net.createServer(function (localsocket) {
         let received = "";
         received += data.toString();
 
-        const messages = received.split("\n");
+        const messages = received.split("\r\n");
 
 
         console.log("OLALEKAN SAYS: ");
