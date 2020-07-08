@@ -72,45 +72,42 @@ var server = net.createServer(function (localsocket) {
 
         let received = "";
 
-        while(~data.toString().endsWith("07PAT2snk")) {
+        received += data.toString();
 
-            received += data.toString();
+
+        if(received.endsWith("07PAT2snk") || received.endsWith("</AdditionalInfo>")) {
+
+              message += received;
+
+
+
+            console.log("OLALEKAN SAYS: ");
+            console.log(message);
+
+
+
+            console.log("selected message to send to downstream: " +message);
+
+
+
+            console.log(`%s:%d - writing data to local `,
+                localsocket.remoteAddress,
+                localsocket.remotePort
+            );
+
+            var flushed = localsocket.write(message + "\n");
+            if (!flushed) {
+                console.log("  local not flushed; pausing remote");
+                remotesocket.pause();
+            }
+
+          //  received = "";
 
 
         }
 
-        let message = received;
-
       //  const messages = received.split("");
 
-
-        console.log("OLALEKAN SAYS: ");
-        console.log(message);
-
-
-      //  if (messages.length > 0) {
-
-         //   for (let message of messages) {
-            //    if (message !== "") {
-                    console.log("selected message to send to downstream: " +message);
-
-
-
-                    console.log(`%s:%d - writing data to local `,
-                        localsocket.remoteAddress,
-                        localsocket.remotePort
-                    );
-
-                    var flushed = localsocket.write(message + "\n");
-                    if (!flushed) {
-                        console.log("  local not flushed; pausing remote");
-                        remotesocket.pause();
-                    }
-
-                    received = ""
-         //       }
-       //     }
-    //    }
 
 
     });
