@@ -37,6 +37,8 @@ var server = net.createServer(function (localsocket) {
         let received = "";
         received += data.toString();
         const messages = received.split("\r\n");
+        console.log(messages);
+
 
 
         if (messages.length > 0) {
