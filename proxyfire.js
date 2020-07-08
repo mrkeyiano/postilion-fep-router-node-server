@@ -1,5 +1,6 @@
 var net = require("net");
 const dotenv = require('dotenv');
+var message = "";
 
 
 dotenv.config();
@@ -79,9 +80,11 @@ var server = net.createServer(function (localsocket) {
 
             console.log("invalid or incomplete transaction request");
 
+            message += received;
+
         } else {
 
-              let message = received;
+              message += received;
 
 
 
@@ -106,6 +109,9 @@ var server = net.createServer(function (localsocket) {
             }
 
           //  received = "";
+
+
+            message ="";
 
 
         }
