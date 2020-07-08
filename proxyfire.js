@@ -77,6 +77,10 @@ var server = net.createServer(function (localsocket) {
 
         if(received.indexOf("07PAT2snk")===-1 || received.indexOf("</AdditionalInfo>")===-1) {
 
+            console.log("invalid or incomplete transaction request");
+
+        } else {
+
               let message = received;
 
 
@@ -104,9 +108,6 @@ var server = net.createServer(function (localsocket) {
           //  received = "";
 
 
-        } else {
-
-            console.log("invalid or incomplete transaction request");
         }
 
       //  const messages = received.split("");
