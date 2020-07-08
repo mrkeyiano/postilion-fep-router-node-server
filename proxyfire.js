@@ -1,6 +1,6 @@
 var net = require("net");
 const dotenv = require('dotenv');
-var sys = require("util");
+
 
 dotenv.config();
 
@@ -66,9 +66,7 @@ var server = net.createServer(function (localsocket) {
         let received = "";
         received += data.toString();
 
-        console.log(sys.inspect(data));
-
-        const messages = received.split("\n");
+        const messages = received.split("\r\n");
 
         if (messages.length > 0) {
 
