@@ -21,6 +21,7 @@ var server = net.createServer(function (localsocket) {
     var remotesocket = new net.Socket();
 
     remotesocket.connect(remoteport, remotehost);
+    remotesocket.setEncoding("utf8");
 
     localsocket.on('connect', function (data) {
         localsocket.setEncoding("utf8");
