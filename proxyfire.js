@@ -71,19 +71,27 @@ var server = net.createServer(function (localsocket) {
 
 
         let received = "";
-        received += data.toString();
 
-        const messages = received.split("\r");
+        while(~data.toString().endsWith("07PAT2snk")) {
+
+            received += data.toString();
+
+
+        }
+
+        let message = received;
+
+      //  const messages = received.split("");
 
 
         console.log("OLALEKAN SAYS: ");
         console.log(messages);
 
 
-        if (messages.length > 0) {
+      //  if (messages.length > 0) {
 
-            for (let message of messages) {
-                if (message !== "") {
+         //   for (let message of messages) {
+            //    if (message !== "") {
                     console.log("selected message to send to downstream: " +message);
 
 
@@ -100,9 +108,9 @@ var server = net.createServer(function (localsocket) {
                     }
 
                     received = ""
-                }
-            }
-        }
+         //       }
+       //     }
+    //    }
 
 
     });
