@@ -21,6 +21,7 @@ var server = net.createServer(function (localsocket) {
     remotesocket.connect(remoteport, remotehost);
 
     localsocket.on('connect', function (data) {
+        localsocket.setEncoding("utf8");
         console.log(">>> connection #%d from %s:%d",
             server.connections,
             localsocket.remoteAddress,
@@ -33,17 +34,18 @@ var server = net.createServer(function (localsocket) {
         received += data.toString();
         const messages = received.split("\n");
 
-        console.log(`%s:%d - writing data to remote `,
-            localsocket.remoteAddress,
-            localsocket.remotePort
-        );
 
         if (messages.length > 0) {
 
             for (let message of messages) {
                 if (message !== "") {
 
-                    var flushed = remotesocket.write(received.toString() +"\n");
+                    console.log(`%s:%d - writing data to remote: ${message}`,
+                        localsocket.remoteAddress,
+                        localsocket.remotePort
+                    );
+
+                    var flushed = remotesocket.write(message +"\n");
                     if (!flushed) {
                         console.log("  remote not flushed; pausing local");
                         localsocket.pause();
@@ -71,12 +73,12 @@ var server = net.createServer(function (localsocket) {
                 if (message !== "") {
 
 
-                    console.log(`%s:%d - writing data to local ${received.toString()}`,
+                    console.log(`%s:%d - writing data to local ${message}`,
                         localsocket.remoteAddress,
                         localsocket.remotePort
                     );
 
-                    var flushed = localsocket.write(data);
+                    var flushed = localsocket.write(message + "\n");
                     if (!flushed) {
                         console.log("  local not flushed; pausing remote");
                         remotesocket.pause();
