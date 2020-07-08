@@ -85,7 +85,7 @@ var server = net.createServer(function (localsocket) {
 
 
         console.log("OLALEKAN SAYS: ");
-        console.log(messages);
+        console.log(message);
 
 
       //  if (messages.length > 0) {
