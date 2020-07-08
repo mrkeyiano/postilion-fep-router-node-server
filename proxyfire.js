@@ -57,15 +57,37 @@ var server = net.createServer(function (localsocket) {
     });
 
     remotesocket.on('data', function(data) {
-        console.log(`%s:%d - writing data to local ${data}`,
-            localsocket.remoteAddress,
-            localsocket.remotePort
-        );
-        var flushed = localsocket.write(data);
-        if (!flushed) {
-            console.log("  local not flushed; pausing remote");
-            remotesocket.pause();
+
+
+        let received = "";
+        received += data.toString();
+
+
+        const messages = received.split("\n");
+
+        if (messages.length > 0) {
+
+            for (let message of messages) {
+                if (message !== "") {
+
+
+                    console.log(`%s:%d - writing data to local ${received.toString()}`,
+                        localsocket.remoteAddress,
+                        localsocket.remotePort
+                    );
+
+                    var flushed = localsocket.write(data);
+                    if (!flushed) {
+                        console.log("  local not flushed; pausing remote");
+                        remotesocket.pause();
+                    }
+
+                    received = ""
+                }
+            }
         }
+
+
     });
 
     localsocket.on('drain', function() {
