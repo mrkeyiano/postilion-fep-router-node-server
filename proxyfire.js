@@ -18,13 +18,14 @@ var remotehost = process.env.REMOTE_HOST;
 var remoteport = process.env.REMOTE_PORT;
 
 var server = net.createServer(function (localsocket) {
+    localsocket.setEncoding("utf8");
     var remotesocket = new net.Socket();
 
     remotesocket.connect(remoteport, remotehost);
     remotesocket.setEncoding("utf8");
 
     localsocket.on('connect', function (data) {
-        localsocket.setEncoding("utf8");
+
         console.log(">>> connection #%d from %s:%d",
             server.connections,
             localsocket.remoteAddress,
@@ -66,9 +67,10 @@ var server = net.createServer(function (localsocket) {
 
         let received = "";
         received += data.toString();
-        console.log(data);
+        console.log(data.toString());
 
         const messages = received.split("\r\n");
+        console.log(messages);
 
         if (messages.length > 0) {
 
@@ -81,7 +83,7 @@ var server = net.createServer(function (localsocket) {
                         localsocket.remotePort
                     );
 
-                    var flushed = localsocket.write(message + "\n");
+                    var flushed = localsocket.write(message + "\r\n");
                     if (!flushed) {
                         console.log("  local not flushed; pausing remote");
                         remotesocket.pause();
