@@ -70,14 +70,14 @@ var server = net.createServer(function (localsocket) {
     remotesocket.on('data', function(data) {
 
 
-        let received = "";
+        var received = "";
 
         received += data.toString();
 
 
-        if(received.endsWith("07PAT2snk") || received.endsWith("</AdditionalInfo>")) {
+        if(received.indexOf("07PAT2snk")===-1 || receivedindexOf("</AdditionalInfo>")===-1) {
 
-              message += received;
+              let message = received;
 
 
 
@@ -104,6 +104,9 @@ var server = net.createServer(function (localsocket) {
           //  received = "";
 
 
+        } else {
+
+            console.log("invalid or incomplete transaction request");
         }
 
       //  const messages = received.split("");
