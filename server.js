@@ -29,7 +29,7 @@ server.on('connection', function(sock) {
 
 
     sockets.push(sock);
-    sock.setEncoding("utf8");
+    sock.setEncoding("ascii");
 
 
     sock.on('data', function(data) {
@@ -70,7 +70,7 @@ server.on('connection', function(sock) {
 
 
 
-                    global[i].write(received.toString() +"\n");
+                    global[i].write(received.toString() +"\n", 'ascii');
                         console.log(data_id +": data sent to fep server, waiting for response.");
 
 
@@ -102,7 +102,7 @@ server.on('connection', function(sock) {
 
                 sockets.forEach(function (sock, index, array) {
 
-                    var broadcast = sock.write(data.toString()+ "\n");
+                    var broadcast = sock.write(data.toString()+ "\n", 'ascii');
                     if(!broadcast){
 
                         if (index === array.length - 1){

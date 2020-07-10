@@ -20,11 +20,11 @@ var remotehost = process.env.REMOTE_HOST;
 var remoteport = process.env.REMOTE_PORT;
 
 var server = net.createServer(function (localsocket) {
-    localsocket.setEncoding("utf8");
+    localsocket.setEncoding("ascii");
     var remotesocket = new net.Socket();
 
     remotesocket.connect(remoteport, remotehost);
-    remotesocket.setEncoding("utf8");
+    remotesocket.setEncoding("ascii");
 
     localsocket.on('connect', function (data) {
 
@@ -56,7 +56,7 @@ var server = net.createServer(function (localsocket) {
                         localsocket.remotePort
                     );
 
-                    var flushed = remotesocket.write(message +"\n");
+                    var flushed = remotesocket.write(message +"\n", 'ascii');
                     if (!flushed) {
                         console.log("  remote not flushed; pausing local");
                         localsocket.pause();
@@ -96,7 +96,7 @@ var server = net.createServer(function (localsocket) {
             localsocket.remotePort
         );
 
-        var flushed = localsocket.write(message + "\n");
+        var flushed = localsocket.write(message + "\n", 'ascii');
         if (!flushed) {
             console.log("  local not flushed; pausing remote");
             remotesocket.pause();
