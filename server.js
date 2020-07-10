@@ -102,7 +102,7 @@ server.on('connection', function(sock) {
 
                 sockets.forEach(function (sock, index, array) {
 
-                    var broadcast = sock.write(data.toString()+ "\n");
+                    var broadcast = sock.write(data.toString()+ "\n", 'ascii');
                     if(!broadcast){
 
                         if (index === array.length - 1){
