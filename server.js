@@ -37,7 +37,7 @@ server.on('connection', function(sock) {
 
         let data_id = "requestId_" + makeid(5) + new Date().getTime();
         let received = "";
-        received += data.toString("ascii");
+        received += data;
         console.log(data_id +':'+ sock.remoteAddress + ':' +sock.remotePort+ ' says: ' + data);
 
 
@@ -70,7 +70,7 @@ server.on('connection', function(sock) {
 
 
 
-                    global[i].write(received.toString("ascii") +"\n");
+                    global[i].write(received +"\n");
                         console.log(data_id +": data sent to fep server, waiting for response.");
 
 
@@ -93,7 +93,7 @@ server.on('connection', function(sock) {
 
         global[i].on('data', function(data) {
             console.log(data_id +": patricia pay fep server responded to request");
-            console.log(data.toString("ascii"));
+            console.log(data);
             console.log(data_id +": forwarding data to unitybank postbridge");
             //write data to unitybank postbridge
 
@@ -102,7 +102,7 @@ server.on('connection', function(sock) {
 
                 sockets.forEach(function (sock, index, array) {
 
-                    var broadcast = sock.write(data.toString("ascii")+ "\n", 'ascii');
+                    var broadcast = sock.write(data +"\n", 'ascii');
                     if(!broadcast){
 
                         if (index === array.length - 1){
