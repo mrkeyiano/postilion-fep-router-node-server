@@ -96,10 +96,10 @@ var server = net.createServer(function (localsocket) {
             localsocket.remotePort
         );
 
-                    var buffer = new Buffer(data, "binary");
+                    var buffer = Buffer.from(data, "binary");
 
 //create a buffer with +4 bytes
-                    var consolidatedBuffer = new Buffer(2 + buffer.length);
+                    var consolidatedBuffer = Buffer.alloc(2 + buffer.length);
 
 //write at the beginning of the buffer, the total size
                     consolidatedBuffer.writeInt32BE(buffer.length, 0);
