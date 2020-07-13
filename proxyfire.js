@@ -56,7 +56,7 @@ var server = net.createServer(function (localsocket) {
                         localsocket.remotePort
                     );
 
-                    var flushed = remotesocket.write(message +"\n", 'ascii');
+                    var flushed = remotesocket.write(data +"\n", 'ascii');
                     if (!flushed) {
                         console.log("  remote not flushed; pausing local");
                         localsocket.pause();
@@ -96,7 +96,7 @@ var server = net.createServer(function (localsocket) {
             localsocket.remotePort
         );
 
-        var flushed = localsocket.write(message);
+        var flushed = localsocket.write(data);
         if (!flushed) {
             console.log("  local not flushed; pausing remote");
             remotesocket.pause();
