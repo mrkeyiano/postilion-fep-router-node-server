@@ -9,11 +9,6 @@ dotenv.config();
 process.on("uncaughtException", function(error) {
     console.error(error);
 });
-//
-// if (process.argv.length != 5) {
-//     console.log("usage: %s <localport> <remotehost> <remoteport>", process.argv[1]);
-//     process.exit();
-// }
 
 var localport = process.env.LOCAL_HOST;
 var remotehost = process.env.REMOTE_HOST;
@@ -36,58 +31,27 @@ var server = net.createServer(function (localsocket) {
     });
 
     localsocket.on('data', function (data) {
-        let received = "";
-        received += data.toString();
-        const messages = received.split("\r\n");
 
-        console.log("MAUREEN SAYS: ");
-        console.log(messages);
-
-
-
-        if (messages.length > 0) {
-
-            for (let message of messages) {
-                if (message !== "") {
-                    console.log("selected message to send to upstream: " +message);
+                    console.log("selected message to send to upstream: " +data);
 
                     console.log(`%s:%d - writing data to remote `,
                         localsocket.remoteAddress,
                         localsocket.remotePort
                     );
 
-                    var flushed = remotesocket.write(data +"\n", 'ascii');
+                    var flushed = remotesocket.write(data +"\n");
                     if (!flushed) {
                         console.log("  remote not flushed; pausing local");
                         localsocket.pause();
                     }
-                    received = ""
-                }
-            }
-        }
 
 
     });
 
     remotesocket.on('data', function(data) {
-        let received = "";
-
-        received += data.toString();
 
 
-        const messages = received.split("\n");
-
-        console.log("OLALEKAN SAYS: ");
-        console.log(messages);
-
-
-
-        if (messages.length > 0) {
-
-            for (let message of messages) {
-                if (message !== "") {
-
-        console.log("selected message to send to downstream: " +message);
+        console.log("selected message to send to downstream: " +data.toString('ascii'));
 
 
 
@@ -96,32 +60,14 @@ var server = net.createServer(function (localsocket) {
             localsocket.remotePort
         );
 
-                    var buffer = Buffer.from(data, "binary");
-
-//create a buffer with +4 bytes
-                    var consolidatedBuffer = Buffer.alloc(2 + buffer.length);
-
-//write at the beginning of the buffer, the total size
-                    consolidatedBuffer.writeInt32BE(buffer.length, 0);
-
-//Copy the message buffer to the consolidated buffer at position 4     (after the 4 bytes about the size)
-                    buffer.copy(consolidatedBuffer, 2);
-
-//Send the consolidated buffer
-
-
-      //  var flushed =
-            localsocket.write(consolidatedBuffer, function(err) {
+       // var flushed =
+             localsocket.write(data, function(err) {
             if (err)  console.log("  local not flushed; pausing remote");
             remotesocket.pause();
         });
         // if (!flushed) {
         //
         // }
-                    received = ""
-                }
-            }
-        }
 
 
 
