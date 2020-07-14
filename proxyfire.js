@@ -32,14 +32,17 @@ var server = net.createServer(function (localsocket) {
 
     localsocket.on('data', function (data) {
 
-                    console.log("selected message to send to upstream: " +data);
+                    let chunk = "";
+                    chunk += data;
+
+                    console.log("selected message to send to upstream: " +chunk);
 
                     console.log(`%s:%d - writing data to remote `,
                         localsocket.remoteAddress,
                         localsocket.remotePort
                     );
 
-                    var flushed = remotesocket.write(data +"\n");
+                    var flushed = remotesocket.write(chunk +"\n");
                     if (!flushed) {
                         console.log("  remote not flushed; pausing local");
                         localsocket.pause();
@@ -51,7 +54,11 @@ var server = net.createServer(function (localsocket) {
     remotesocket.on('data', function(data) {
 
 
-        console.log("selected message to send to downstream: " +data.toString());
+        let chunk = "";
+        chunk += data;
+
+
+        console.log("selected message to send to downstream: " +chunk.toString());
 
 
 
@@ -62,7 +69,7 @@ var server = net.createServer(function (localsocket) {
 
 
 
-        var buffer = Buffer.from(data.toString(), "ascii");
+        var buffer = Buffer.from(chunk.toString(), "ascii");
 
 
 //create a buffer with +2 bytes
