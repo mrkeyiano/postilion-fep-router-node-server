@@ -34,7 +34,22 @@ var server = net.createServer(function (localsocket) {
 
 
         console.log("local server bytes in:"+data.length);
-        receive(localsocket,data);
+        console.log("message received with data:"+data.toString());
+
+
+        let chunk = "";
+        chunk += data;
+
+        console.log(`%s:%d - writing data to remote `,
+            localsocket.remoteAddress,
+            localsocket.remotePort
+        );
+
+        var flushed = remotesocket.write(chunk +"\n");
+        if (!flushed) {
+            console.log("  remote not flushed; pausing local");
+            localsocket.pause();
+        }
 
 
     });
@@ -114,22 +129,6 @@ function receive(socket, data){
 }
 
 function onMessage(socket, buffer){
-    console.log("message received with data:"+buffer.toString());
-
-
-    let chunk = "";
-    chunk += buffer;
-
-    console.log(`%s:%d - writing data to remote `,
-        socket.remoteAddress,
-        socket.remotePort
-    );
-
-    var flushed = remotesocket.write(chunk +"\n");
-    if (!flushed) {
-        console.log("  remote not flushed; pausing local");
-        localsocket.pause();
-    }
 
 
 }
