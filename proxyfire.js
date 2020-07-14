@@ -109,35 +109,8 @@ var server = net.createServer(function (localsocket) {
 
 
 function receive(socket, data){
-    //Create a chunk prop if it does not exist
-    if(!socket.chunk){
-        socket.chunck = {
-            messageSize : 0,
-            buffer: new Buffer(0),
-            bufferStack: new Buffer(0)
-        };
-    }
-    //store the incoming data
-    socket.chunck.bufferStack = Buffer.concat([socket.chunck.bufferStack, data]);
-    //this is to check if you have a second message incoming in the tail of the first
-    var reCheck = false;
-    do {
-        reCheck = false;
-        //if message size == 0 you got a new message so read the message size (first 4 bytes)
-        if (socket.chunck.messageSize == 0 && socket.chunck.bufferStack.length >= 4) {
-            socket.chunck.messageSize = socket.chunck.bufferStack.readInt32BE(0);
-        }
+     onMessage(socket, data);
 
-        //After read the message size (!= 0) and the bufferstack is completed and/or the incoming data contains more data (the next message)
-        if (socket.chunck.messageSize != 0 && socket.chunck.bufferStack.length >= socket.chunck.messageSize + 4) {
-            var buffer = socket.chunck.bufferStack.slice(4, socket.chunck.messageSize + 4);
-            socket.chunck.messageSize = 0;
-            socket.chunck.bufferStack = socket.chunck.bufferStack.slice(buffer.length + 4);
-            onMessage(socket, buffer);
-            //if the stack contains more data after read the entire message, maybe you got a new message, so it will verify the next 4 bytes and so on...
-            reCheck = socket.chunck.bufferStack.length > 0;
-        }
-    } while (reCheck);
 }
 
 function onMessage(socket, buffer){
