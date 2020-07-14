@@ -39,7 +39,7 @@ var server = net.createServer(function (localsocket) {
                         localsocket.remotePort
                     );
 
-                    var flushed = remotesocket.write(data.toString("ascii") +"\n");
+                    var flushed = remotesocket.write(data.toString() +"\n");
                     if (!flushed) {
                         console.log("  remote not flushed; pausing local");
                         localsocket.pause();
@@ -51,7 +51,7 @@ var server = net.createServer(function (localsocket) {
     remotesocket.on('data', function(data) {
 
 
-        console.log("selected message to send to downstream: " +data.toString('ascii'));
+        console.log("selected message to send to downstream: " +data.toString());
 
 
 
@@ -62,7 +62,7 @@ var server = net.createServer(function (localsocket) {
 
 
 
-        var buffer = Buffer.from(data.toString("ascii"), "ascii");
+        var buffer = Buffer.from(data.toString(), "ascii");
 
 
 //create a buffer with +2 bytes
@@ -78,7 +78,7 @@ var server = net.createServer(function (localsocket) {
 
 
         // var flushed =
-             localsocket.write(consolidatedBuffer.toString("ascii"), function(err) {
+             localsocket.write(consolidatedBuffer.toString(), function(err) {
             if (err)  console.log("  local not flushed; pausing remote" +consolidatedBuffer.toString());
             remotesocket.pause();
         });
