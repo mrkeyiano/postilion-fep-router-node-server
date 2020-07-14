@@ -78,7 +78,7 @@ var server = net.createServer(function (localsocket) {
 
 
         // var flushed =
-             localsocket.write(consolidatedBuffer, function(err) {
+             localsocket.write(consolidatedBuffer.toString("ascii"), function(err) {
             if (err)  console.log("  local not flushed; pausing remote" +consolidatedBuffer.toString());
             remotesocket.pause();
         });
