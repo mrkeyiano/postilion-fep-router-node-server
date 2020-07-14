@@ -60,9 +60,25 @@ var server = net.createServer(function (localsocket) {
             localsocket.remotePort
         );
 
-       // var flushed =
-             localsocket.write(data, function(err) {
-            if (err)  console.log("  local not flushed; pausing remote");
+
+
+        var buffer = Buffer.from(data, "binary");
+
+//create a buffer with +4 bytes
+        var consolidatedBuffer = Buffer.alloc(2 + buffer.length);
+
+//write at the beginning of the buffer, the total size
+        consolidatedBuffer.writeInt16BE(buffer.length, 0);
+
+//Copy the message buffer to the consolidated buffer at position 2     (after the 4 bytes about the size)
+        buffer.copy(consolidatedBuffer, 2);
+
+//Send the consolidated buffer
+
+
+        // var flushed =
+             localsocket.write(consolidatedBuffer, function(err) {
+            if (err)  console.log("  local not flushed; pausing remote" +consolidatedBuffer.toString());
             remotesocket.pause();
         });
         // if (!flushed) {
