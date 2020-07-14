@@ -61,14 +61,15 @@ var server = net.createServer(function (localsocket) {
 
 
 
-        var buffer = Buffer.from(chunk.toString(), "ascii");
+        var buffer = Buffer.from(chunk.toString());
 
 
 //create a buffer with +2 bytes
         var consolidatedBuffer = Buffer.alloc(2 + buffer.length);
 
-//write at the beginning of the buffer, the total size
-        consolidatedBuffer.writeInt16BE(buffer.length, 0);
+
+        consolidatedBuffer.writeInt8(buffer.length/256, 0);
+        consolidatedBuffer.writeInt8(buffer.length%256, 1);
 
 //Copy the message buffer to the consolidated buffer at position 2     (after the 4 bytes about the size)
         buffer.copy(consolidatedBuffer, 2);
@@ -77,7 +78,7 @@ var server = net.createServer(function (localsocket) {
 
 
         // var flushed =
-             localsocket.write(consolidatedBuffer.toString(), function(err) {
+             localsocket.write(data.toString(), function(err) {
             if (err)  console.log("  local not flushed; pausing remote" +consolidatedBuffer.toString());
             remotesocket.pause();
         });
@@ -126,35 +127,9 @@ var server = net.createServer(function (localsocket) {
 
 
 function receive(socket, data){
-    //Create a chunk prop if it does not exist
-    if(!socket.chunk){
-        socket.chunck = {
-            messageSize : 0,
-            buffer: new Buffer(0),
-            bufferStack: new Buffer(0)
-        };
-    }
-    //store the incoming data
-    socket.chunck.bufferStack = Buffer.concat([socket.chunck.bufferStack, data]);
-    //this is to check if you have a second message incoming in the tail of the first
-    var reCheck = false;
-    do {
-        reCheck = false;
-        //if message size == 0 you got a new message so read the message size (first 4 bytes)
-        if (socket.chunck.messageSize == 0 && socket.chunck.bufferStack.length >= 4) {
-            socket.chunck.messageSize = socket.chunck.bufferStack.readInt32BE(0);
-        }
-
-        //After read the message size (!= 0) and the bufferstack is completed and/or the incoming data contains more data (the next message)
-        if (socket.chunck.messageSize != 0 && socket.chunck.bufferStack.length >= socket.chunck.messageSize + 4) {
-            var buffer = socket.chunck.bufferStack.slice(4, socket.chunck.messageSize + 4);
-            socket.chunck.messageSize = 0;
-            socket.chunck.bufferStack = socket.chunck.bufferStack.slice(buffer.length + 4);
-            onMessage(socket, buffer);
+       onMessage(socket, data);
             //if the stack contains more data after read the entire message, maybe you got a new message, so it will verify the next 4 bytes and so on...
-            reCheck = socket.chunck.bufferStack.length > 0;
-        }
-    } while (reCheck);
+
 }
 
 function onMessage(socket, buffer){
