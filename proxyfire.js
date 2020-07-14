@@ -62,9 +62,10 @@ var server = net.createServer(function (localsocket) {
 
 
 
-        var buffer = Buffer.from(data, "binary");
+        var buffer = Buffer.from(data.toString("ascii"), "ascii");
 
-//create a buffer with +4 bytes
+
+//create a buffer with +2 bytes
         var consolidatedBuffer = Buffer.alloc(2 + buffer.length);
 
 //write at the beginning of the buffer, the total size
