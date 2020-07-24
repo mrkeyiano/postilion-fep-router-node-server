@@ -10,7 +10,9 @@ process.on("uncaughtException", function(error) {
     console.error(error);
 });
 
-var localport = process.env.LOCAL_HOST;
+var localport = process.env.LOCAL_PORT;
+
+var localhost = process.env.LOCAL_HOST;
 var remotehost = process.env.REMOTE_HOST;
 var remoteport = process.env.REMOTE_PORT;
 
